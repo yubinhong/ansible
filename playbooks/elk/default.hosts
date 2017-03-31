@@ -1,0 +1,15 @@
+[filebeat]
+
+[logstash]
+
+[logstash_2x]
+
+[elasticsearch]
+127.0.0.1
+
+[kibana]
+
+[curator]
+
+#未写完
+[heka]

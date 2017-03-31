@@ -1,0 +1,44 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Download Kafka Package
+   uri: 
+    url: "{{ package_url }}"
+    dest: "{{ tempdir }}"
+    creates: "{{ tempdir }}/{{ fullname }}"
+
+ - block:
+    - debug:
+       msg: "Install Kafka"
+    - unarchive:
+       src: "{{ tempdir }}/{{ fullname }}" 
+       dest: "{{ tempdir }}"
+       copy: no
+       creates: "{{ tempdir }}/{{ name }}_{{ version }}"
+    - synchronize:
+       src: "{{ tempdir }}/{{ name }}_{{ version }}/"
+       dest: "{{ basedir }}"
+      delegate_to: "{{ inventory_hostname }}"
+    - template:
+       src: "{{ item }}.j2"
+       dest: "{{ basedir }}/{{ item }}"
+      with_items:
+       - "config/server.properties"
+       - "config/zookeeper.properties"
+ - block:
+    - debug:
+       msg: "Setup Kafka Auto Start"
+    - template:
+        src: "{{ item }}.j2"
+        dest: "/etc/systemd/system/{{ item }}"
+      with_items:
+       - "kafka.service"
+       - "zookeeper.service"
+    - shell: "systemctl enable kafka && systemctl enable zookeeper"
+       
+
+
+...

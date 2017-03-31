@@ -1,0 +1,11 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Install Percona Tools
+   yum:
+    name: "{{ item }}"
+    state: present
+   with_items: "{{ tools_package_url }}"

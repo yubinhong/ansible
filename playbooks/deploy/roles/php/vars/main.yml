@@ -1,0 +1,4 @@
+---
+php_conf_dir: /usr/local/webserver/php/etc/fpm.d
+php_bin_dir: /usr/local/webserver/php/sbin
+

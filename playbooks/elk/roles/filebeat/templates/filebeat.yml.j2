@@ -1,0 +1,51 @@
+filebeat.spool_size: 2048
+filebeat.idle_timeout: 5s
+filebeat.registry_file: ${path.data}/registry
+#filebeat.config_dir: /etc/filebeat/configs/
+#filebeat.publish_async: false (Experimental!)
+
+filebeat.prospectors:
+ - paths:
+    - {{ logdir }}/{{ type }}/*.access.log
+   exclude_files: [ "default_server.access.log" ]
+   input_type: log
+   document_type: {{ type }}
+   ignore_older: 24h
+   close_inactive: 1h
+   scan_frequency: 10s
+   backoff: 1s
+   max_backoff: 10s
+   backoff_factor: 2
+
+output.kafka:
+  enabled: false
+  hosts: [ "{{ kafka.host }}:{{ kafka.port }}" ]
+  topic: beats
+  worker: 1
+  max_retries: 3
+  bulk_max_size: 2048
+  timeout: 30s
+  broker_timeout: 10s
+  channel_buffer_size: 256
+  keep_alive: 60s
+  compression: gzip
+  max_message_bytes: 1000000
+  required_acks: 1
+  flush_interval: 10s
+#  client_id: beats
+
+output.redis:
+  enabled: true
+  loadbalance: true
+  hosts: [ "{{ redis.host }}" ]
+  port: {{ redis.port }}
+  password: "{{ redis.password }}"
+  db: 0
+  key: beats
+  datatype: list #channel
+  worker: 1
+  max_retries: 3
+  timeout: 5s
+  bulk_max_size: 2048
+  reconnect_interval: 1
+    

@@ -1,0 +1,6 @@
+[aliyun]
+[IDC]
+
+[all:vars]
+#ansible_ssh_pass="xxxxx"
+

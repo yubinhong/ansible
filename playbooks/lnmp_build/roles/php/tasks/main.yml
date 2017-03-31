@@ -1,0 +1,104 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Install Dependent Packages
+   yum:
+    name: "{{ item }}"
+    state: present
+   with_items:
+    - libxml2-devel
+    - bzip2-devel
+    - libcurl-devel
+    - libjpeg-turbo-devel
+    - libvpx-devel
+    - libpng-devel
+    - libXpm-devel
+    - freetype-devel
+    - gmp-devel
+    - openldap-devel
+    - libmcrypt-devel
+    - openssl-devel
+
+ - name: Get PHP Source Code
+   uri:
+    url: "{{ php_package_url }}"
+    dest: "{{ build_dir }}"
+    creates: "{{ build_dir }}/{{ php_package }}.tar.bz2"
+
+ - block: 
+    - debug: 
+       msg: Build PHP Source Code
+    - unarchive:
+       src: "{{ build_dir }}/{{ php_package }}.tar.bz2"
+       dest: "{{ build_dir }}"
+       copy: no
+       creates: "{{ build_dir }}/{{ php_package }}"
+    - shell: cd "{{ build_dir }}/{{ php_package }}" && ./configure \
+        "--with-fpm-user={{ php_user }}" \
+        "--with-fpm-group={{ php_user }}" \
+        "--prefix={{ php_install_dir }}" \
+        --disable-debug \
+        --with-pic \
+        --disable-rpath \
+        --with-bz2 \
+        --without-gdbm \
+        --with-gettext \
+        --with-gmp \
+        --enable-mbregex \
+        --enable-mbstring \
+        --with-iconv \
+        --with-openssl=/usr \
+        --with-zlib \
+        --with-layout=GNU \
+        --enable-exif \
+        --enable-ftp \
+        --enable-sockets 
+        --enable-sysvsem \
+        --enable-sysvshm \
+        --enable-sysvmsg \
+        --enable-shmop \
+        --enable-calendar \
+        --enable-xml \
+        --with-pear \
+        --enable-fpm \
+        --with-pdo-mysql \
+        --with-curl --with-ldap \
+        --with-mysql \
+        --with-gd \
+        --with-freetype-dir \
+        --enable-gd-native-ttf \
+        --with-mysqli \
+        --with-mcrypt \
+        --enable-soap \
+        --enable-bcmath \
+        --with-jpeg-dir=/usr \
+        --with-xpm-dir=/usr \
+        --with-vpx-dir=/usr \
+        --with-libdir=lib64
+    - shell: cd "{{ build_dir }}/{{ php_package }}" && make && make install
+ 
+ - block:
+    - debug:
+       msg: Git PHP Conf
+    - file: 
+       path: "{{ php_install_dir }}/etc"
+       state: absent
+    - git: 
+       repo: "{{ php_conf_url }}"
+       dest: "{{ php_install_dir }}/etc"
+       clone: yes
+
+ - name: Generate Logs Directory
+   file:
+    path: "{{ php_logs_dir }}"
+    state: directory
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ php_install_dir }}/sbin/php-fpm" >> /etc/rc.local       
+
+ - name: Export PATH
+   shell: echo "export PATH={{ php_install_dir }}/bin:\$PATH" >> /etc/.bash_profile
+...

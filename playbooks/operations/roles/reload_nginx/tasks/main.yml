@@ -1,0 +1,8 @@
+---
+ - name: Git Pull Nginx Config
+   git:
+    repo: "https://github.com/chenjianbin/nginx_conf"
+    dest: "{{ nginx_basedir }}/conf"
+   notify:
+    - Reload Nginx
+...

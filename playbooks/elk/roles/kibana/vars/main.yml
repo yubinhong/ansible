@@ -1,0 +1,11 @@
+---
+#url_prefix: "https://artifacts.elastic.co/downloads/kibana"
+#kibana install info
+name: "kibana"
+version: "5.2.0-linux-x86_64"
+suffix: "tar.gz"
+fullname: "{{ name }}-{{ version }}.{{ suffix }}"
+package_url: "{{ url_prefix }}/{{ fullname }}"
+basedir: "/usr/local/webserver/{{ name }}"
+nginx_basedir: "/usr/local/webserver/nginx"
+nginx_logdir: "/data0/logs/nginx"

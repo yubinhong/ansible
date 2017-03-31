@@ -1,0 +1,11 @@
+[Unit]
+Description=zookeeper
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart={{ basedir }}/bin/zookeeper-server-start.sh {{ basedir }}/config/zookeeper.properties
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

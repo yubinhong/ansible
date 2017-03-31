@@ -1,0 +1,14 @@
+server {
+    set $Site www.test.com;
+    listen 80;
+    server_name www.test.com;
+
+    location / {
+        proxy_pass http://{{ ip }}:3000;
+        include setup/proxy/proxy.conf;
+    }
+
+    include setup/common/*.conf;
+
+    access_log /data0/logs/nginx/www.test.com.access.log  main_product;
+}

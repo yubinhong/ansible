@@ -1,0 +1,15 @@
+server
+{
+	set $Site {{ kibana.server_name }};
+	listen 80;
+	server_name {{ kibana.server_name }};
+	index index.php index.html index.htm;
+	root /data0/web/$Site;
+
+	location / {
+		proxy_pass http://{{ kibana.host }}:{{ kibana.port }};
+		include setup/proxy/proxy.conf;
+	}
+	include setup/common/*.conf;
+	access_log {{ nginx_logdir }}/{{ kibana.server_name }}.access.log  main_product;
+}

@@ -1,0 +1,56 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Install Nginx
+   yum:
+    name: "{{ nginx_package_url }}"
+    state: installed
+ 
+ - block:
+    - debug:
+       msg: Get Nginx Conf
+    - file: 
+       path: "{{ nginx_install_dir }}/conf"
+       state: absent
+    - subversion:
+       repo: "{{ nginx_conf_url }}"
+       username: "{{ SVN_USER }}"
+       password: "{{ SVN_PASSWD }}"
+       dest: "{{ nginx_install_dir }}/conf"
+       force: yes
+    - copy:
+       src: default.htpasswd
+       dest: "{{ nginx_install_dir }}/conf/setup/auth/htpasswd/"
+
+ - name: Link Nginx Directory
+   file:
+    src: "{{ nginx_install_dir }}"
+    path: "{{ nginx_link_dir }}"
+    state: link
+
+ - name: Protection Nginx Is Not Updated
+   shell: echo "exclude=nginx*" >> /etc/yum.conf
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ nginx_link_dir }}/sbin/nginx" >> /etc/rc.local
+
+ - name: Create Logs Dir
+   file:
+    path: "{{ nginx_logs_dir }}" 
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
+    recurse: yes
+    state: directory
+
+ - name: Set Regular Clean Nginx Logs
+   template: 
+    src: nginx.logrotate
+    dest: /etc/logrotate.d/nginx
+
+ - name: Set Environment PATH 
+   shell: echo "export PATH={{ nginx_link_dir }}/sbin:\$PATH" >> /root/.bash_profile
+
+...

@@ -1,0 +1,10 @@
+[aliyun]
+120.24.226.143
+[IDC]
+
+[all:vars]
+#ansible_ssh_pass="Ops@miguan.com"
+ansible_ssh_pass="hc8591732"
+#ansible_ssh_pass="Wangdaili123"
+#ansible_ssh_pass="Miguan888"
+

@@ -1,0 +1,43 @@
+[hekad]
+maxprocs = 2
+
+[nginx_access_logs]
+type = "LogstreamerInput"
+splitter = "TokenSplitter"
+decoder = "nginx_access_decoder"
+log_directory = "{{ logdir }}/{{ type }}"
+file_match = '.*\.access\.log\-?(?P<Index>\d+)?(.gz)?'
+#file_match = '.*\.access\.log'
+priority = ["^Index"]
+
+[nginx_access_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/nginx_access.lua"
+
+[nginx_access_decoder.config]
+tz = "Asia/Shanghai"
+log_format = '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" "$host" "$request_time" "$request_length" "$upstream_addrs" "$upstream_response_time" "$upstream_status"'
+user_agent_transform = true
+type = "{{ type }}"
+
+#[GeoIpDecoder]
+#db_file="/var/cache/hekad/GeoLiteCity.dat"
+#source_ip_field="remote_addr"
+#target_field="geoip"
+
+[ESJsonEncoder]
+es_index_from_timestamp = true
+type_name = "%{Type}"
+
+[PayloadEncoder]
+append_newlines = false
+
+[LogOutput]
+type = "KafkaOutput"
+#message_matcher = "Logger == 'FxaAuthWebserver' || Logger == 'FxaAuthServer'"
+topic = "beats"
+addrs = {{ kafka_hosts }}
+#encoder = "ProtobufEncoder"
+message_matcher = "TRUE"
+#encoder = "PayloadEncoder"
+encoder = "ESJsonEncoder"

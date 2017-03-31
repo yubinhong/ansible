@@ -1,0 +1,21 @@
+server {
+    set $Site {{ master_domain }};
+    listen 443 ssl;
+    server_name {{ domain }};
+    index index.php index.html index.htm;
+    root /data0/web/$Site;
+
+    location / {
+        if (!-e $request_filename) {
+            rewrite ^/(.*)$ /index.php/$1 last;
+        }
+    }
+
+    include setup/common/*.conf;
+    include setup/php/*.conf;
+    include setup/ssl/*.conf;
+    ssl_certificate setup/ssl/files/www.test.com.crt;
+    ssl_certificate_key setup/ssl/files/www.test.com.key;
+
+    access_log /data0/logs/nginx/www.test.com.access.log  main_product;
+}

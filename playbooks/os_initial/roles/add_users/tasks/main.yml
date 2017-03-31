@@ -1,0 +1,21 @@
+---
+ - name: Add Os Groups
+   group: 
+    name: "{{ item.key }}" 
+    gid: "{{ item.value.id }}" 
+    state: present 
+    system: yes
+   with_dict: "{{os_users}}"
+
+ - name: Add Os Users
+   user: 
+    name: "{{ item.key }}" 
+    group: "{{ item.key }}" 
+    uid: "{{ item.value.id }}" 
+    createhome: no 
+    comment: "{{ item.value.comment }}" 
+    shell: /sbin/nologin 
+    state: present 
+    system: yes
+   with_dict: "{{ os_users }}"
+...

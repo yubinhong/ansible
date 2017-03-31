@@ -1,0 +1,5 @@
+---
+node_version: "v6.10.1"
+node_package_url: "https://nodejs.org/dist/{{ node_version }}/node-{{ node_version }}-linux-x64"
+node_install_dir: "/usr/local/webserver"
+node_link_dir: "/usr/local/webserver/node"

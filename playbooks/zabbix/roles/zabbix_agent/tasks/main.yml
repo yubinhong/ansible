@@ -1,0 +1,49 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: install dependent packages
+   yum: 
+    name: unixODBC 
+    state: present
+
+ - name: Install Zabbix-agentd On CentOS 7
+   yum: 
+    name: "{{ Zabbix_Agent_Package }}"
+    state: present
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'"
+
+ - name: Install Zabbix-agentd On CentOS 6
+   yum: 
+    name: "{{ Zabbix_Agent_Package }}"
+    state: present
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
+
+ - name: Copy Zabbix_agent.conf
+   template: 
+    src: "zabbix_agentd.conf.{{ Mode }}.j2" 
+    dest: "/etc/zabbix/zabbix_agentd.conf"
+
+ - name: Delete Old Zabbix_agentd.d Directory
+   file:
+    path: "/etc/zabbix/zabbix_agentd.d"
+    state: absent
+
+ - name: Create Zabbix Monitor Logs Directory
+   file:
+    path: "/data0/logs/zabbix_agent"
+    recurse: yes
+    state: directory
+
+ - name: Checkout Zabbix_agentd.d
+   subversion:
+    repo: "{{ SVN_ADDR }}"
+    username: "{{ SVN_USER }}"
+    password: "{{ SVN_PASSWD }}"
+    dest: /etc/zabbix/zabbix_agentd.d
+    force: yes
+   notify:
+    - Restart Zabbix-agentd
+...

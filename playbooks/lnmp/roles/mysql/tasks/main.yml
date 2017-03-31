@@ -1,0 +1,64 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+# - name: Get Mysql RPM 
+#   uri:
+#    url: "{{ mysql_package_url }}"
+#    dest: "{{ tempdir }}/{{ package_name }}"
+#    creates: "{{ tempdir }}/{{ package_name }}"
+
+ - name: Install Mysql
+   yum:
+#    name: "{{ tempdir }}/{{ package_name }}"
+    name: "{{ mysql_package_url }}"
+    state: present
+
+
+# - name: Install Mysql Tools
+#   yum:
+#    name: "{{ item }}"
+#    state: present
+#   with_items: "{{ tools_package_url }}"
+
+ - name: Add Mysql Libs Configuration
+   template:
+    src: "lib_mysql.conf.j2"
+    dest: "/etc/ld.so.conf.d/mysql.conf"
+
+ - name: Ldconfig
+   shell: ldconfig
+
+ - name: Set Environment PATH
+   shell: echo "export PATH={{ mysql_install_dir }}/bin:\$PATH" >> /root/.bash_profile
+
+ - block:
+    - debug:
+       msg: Initail Mysql Data Directory
+    - file:
+       path: "{{ mysql_datadir }}/{{ mysql_port }}/{{ item }}"
+       owner: "{{ mysql_user }}"
+       group: "{{ mysql_user }}"
+       recurse: yes
+       state: directory
+      with_items:
+       - data
+       - logs/binlog
+       - logs/relaylog
+    - template:
+       src: "{{ item.name }}.j2"
+       dest: "{{ mysql_datadir }}/{{ mysql_port }}/{{ item.name }}"
+       owner: "{{ mysql_user }}"
+       group: "{{ mysql_user }}"
+       mode: "{{ item.mode }}"
+      with_items:
+       - {name: my.cnf, mode: 600}
+       - {name: mysqld, mode: 700}
+    - shell: "{{ mysql_install_dir }}/scripts/mysql_install_db --defaults-file={{ mysql_datadir }}/{{ mysql_port }}/my.cnf --basedir={{ mysql_install_dir }}"
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ mysql_datadir }}/{{ mysql_port }}/mysqld start" >> /etc/rc.local
+
+...

@@ -1,0 +1,20 @@
+---
+ - hosts: lnmp
+
+   vars_prompt: 
+   - name: "master_domain"
+     prompt: "***Please input the domain name***Such as  www.baidu.com\n "
+     private: no
+   - name: "type"
+     prompt: "***What kind of the web type***Such as php|php_ssl|proxy\n"
+     private: no
+   
+   - name: "ip"
+     prompt: "---What the proxy ip is?---\n"
+     private: no
+
+   roles:
+    - nginx
+    - php
+    - mysql
+    - web

@@ -1,0 +1,9 @@
+---
+
+ - name: checkout the code
+   subversion:
+    repo: "{{ SVN_URL }}/{{ master_domain }}/trunk"
+    username: "{{ SVN_USER }}"
+    password: "{{ SVN_PASSWD }}"
+    dest: "{{ WEB_DIR }}/{{ master_domain }}"
+    force: yes

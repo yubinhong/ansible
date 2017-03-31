@@ -1,0 +1,3 @@
+---
+ - name: Reload Nginx
+   shell: "{{ nginx_basedir }}/sbin/nginx -t && {{ nginx_basedir }}/sbin/nginx -s reload || {{ nginx_basedir }}/sbin/nginx"

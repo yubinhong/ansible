@@ -1,0 +1,4 @@
+---
+nginx_vhosts_dir: '/usr/local/webserver/nginx/conf/vhosts'
+web_dir: '/data0/web'
+nginx_basedir: '/usr/local/webserver/nginx'

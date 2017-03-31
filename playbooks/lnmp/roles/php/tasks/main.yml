@@ -1,0 +1,39 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Install PHP
+   yum:
+    name: "{{ php_package_url }}"
+    state: present
+
+ - block:
+    - debug:
+       msg: Get PHP Conf
+    - file: 
+       path: "{{ php_install_dir }}/etc"
+       state: absent
+    - subversion:
+       repo: "{{ php_conf_url }}"
+       username: "{{ SVN_USER }}"
+       password: "{{ SVN_PASSWD }}"
+       dest: "{{ php_install_dir }}/etc"
+       force: yes
+
+ - name: Generate Logs Directory
+   file:
+    path: "{{ php_logs_dir }}"
+    owner: "{{ php_user }}"
+    group: "{{ php_user }}"
+    recurse: yes
+    state: directory
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ php_install_dir }}/sbin/php-fpm" >> /etc/rc.local       
+
+ - name: Set Environment PATH
+   shell: echo "export PATH={{ php_install_dir }}/bin:\$PATH" >> /etc/.bash_profile
+
+...

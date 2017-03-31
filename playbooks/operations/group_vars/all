@@ -1,0 +1,2 @@
+nginx_basedir: "/usr/local/webserver/nginx"
+php_basedir: "/usr/local/webserver/php"

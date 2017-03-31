@@ -1,0 +1,12 @@
+[Unit]
+Description=heka
+Documentation=http://hekad.readthedocs.io/en/v0.10.0
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/hekad -config {{ confdir }}/kafka.toml
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

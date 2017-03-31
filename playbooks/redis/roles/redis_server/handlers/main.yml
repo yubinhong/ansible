@@ -1,0 +1,4 @@
+---
+ - name: Restart Redis
+   shell: /bin/bash "{{ redis_instance_dir }}/{{ redis_port }}/redisd" start
+...

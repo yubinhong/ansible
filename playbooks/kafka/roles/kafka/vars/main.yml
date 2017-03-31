@@ -1,0 +1,7 @@
+---
+name: "kafka"
+version: "2.11-0.10.0.1"
+suffix: "tgz"
+fullname: "{{ name }}_{{ version }}.{{ suffix }}"
+package_url: "{{ url_prefix }}/{{ name }}/{{ fullname }}"
+basedir: "/usr/local/webserver/{{ name }}"

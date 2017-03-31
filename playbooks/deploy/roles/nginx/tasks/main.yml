@@ -1,0 +1,35 @@
+---
+  - name: copy html conf
+    template:
+     src: "html.conf.j2"
+     dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+    when: type == "html"
+
+  - name: copy the php conf
+    template:
+     src: "php.conf.j2"
+     dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+    when: type == "php"
+
+  - name: copy the php ssl  conf
+    template:
+     src: "php_ssl.conf.j2"
+     dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+    when: type == "php_ssl"
+
+  - block:
+     - debug:
+        msg: "copy and change the proxy conf"
+     - template:
+        src: "proxy.conf.j2"    
+        dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+    when: type == "proxy"
+
+  - name: change domain name  in the nginx conf
+    replace:
+     dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+     regexp: 'www\.test\.com'
+     replace: "{{ master_domain }}"
+    notify:     
+     - Reload Nginx
+...

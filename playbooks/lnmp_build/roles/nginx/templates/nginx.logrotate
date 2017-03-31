@@ -1,0 +1,13 @@
+/data0/logs/nginx/*.log {
+daily
+rotate 7
+missingok
+notifempty
+compress
+create 0664 www www
+
+sharedscripts
+postrotate
+        {{ nginx_install_dir }}/sbin/nginx -s reopen
+endscript
+}

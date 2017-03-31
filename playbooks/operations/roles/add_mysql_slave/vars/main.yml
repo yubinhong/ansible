@@ -1,0 +1,3 @@
+mysql_datadir: '/data0/mysql'
+mysql_basedir: '/usr/local/webserver/mysql'
+mysql_user: 'mysql'

@@ -1,0 +1,11 @@
+[Unit]
+Description=kafka
+Wants=zookeeper.service
+After=zookeeper.service
+
+[Service]
+ExecStart={{ basedir }}/bin/kafka-server-start.sh {{ basedir }}/config/server.properties
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

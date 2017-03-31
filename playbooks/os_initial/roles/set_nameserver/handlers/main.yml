@@ -1,0 +1,4 @@
+---
+ - name: Restart NetworkManager
+   shell: systemctl restart NetworkManager.service
+...

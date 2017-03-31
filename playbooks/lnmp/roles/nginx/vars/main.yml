@@ -1,0 +1,9 @@
+---
+release_version: 1.10.2
+build_version: 12
+version: "nginx-{{ release_version }}-{{ build_version }}"
+nginx_package_url: "{{ package_url_prefix }}/nginx/{{ version }}.el{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
+nginx_user: www
+nginx_install_dir: "/usr/local/webserver/nginx{{ release_version }}"
+nginx_link_dir: "/usr/local/webserver/nginx"
+nginx_logs_dir: "/data0/logs/nginx"

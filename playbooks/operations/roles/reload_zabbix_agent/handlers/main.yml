@@ -1,0 +1,4 @@
+---
+ - name: Restart Zabbix-agent
+   command: "systemctl restart zabbix-agent"
+...

@@ -1,0 +1,10 @@
+[lnmp]
+
+[nginx]
+127.0.0.1
+
+[php]
+
+[mysql]
+
+[percona_tools]

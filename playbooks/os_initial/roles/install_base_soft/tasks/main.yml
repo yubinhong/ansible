@@ -1,0 +1,90 @@
+---
+#安装基础软件,如果失败了,重试3次,每次间隔1秒.
+ - name: Install Basic Software
+   yum: 
+    name: "{{ item }}"
+    state: present
+   with_items: 
+    - ntp 
+    - vim-enhanced
+    - gcc
+    - gcc-c++
+    - make
+    - automake
+    - autoconf
+    - glibc
+    - glibc-devel
+    - glib2
+    - glib2-devel
+    - irqbalance
+    - microcode_ctl
+    - smartmontools
+    - tcl
+    - libffi-devel
+    - deltarpm
+    - bash-completion
+   register: result
+   retries: 3
+   delay: 1
+   until: result.rc ==  1 or result.rc == 0
+
+ - name: Install Tools Software
+   yum: 
+    name: "{{ item }}"
+    state: present
+   with_items: 
+    - net-tools
+    - rsync
+    - subversion
+    - git
+    - screen
+    - numactl
+    - psmisc
+    - lrzsz
+    - wget
+    - bzip2
+    - httpd-tools
+    - tree
+    - zip
+    - unzip
+
+ - name: Install Debug Software
+   yum: 
+    name: "{{ item }}" 
+    state: present
+   with_items: 
+    - iptraf
+    - nload
+    - iftop
+    - iotop
+    - dstat
+    - strace
+    - sysstat
+    - lsof
+    - tcpdump
+
+ - name: Install Python Software
+   yum: 
+    name: "{{ item }}"
+    state: present
+   with_items: 
+    - python2-pip
+    - python-simplejson
+    - python-httplib2
+    - python34
+    - python34-devel
+    - python34-pip
+    - python-devel
+
+ - name: Install Perl Software
+   yum: 
+    name: "{{ item }}" 
+    state: present
+   with_items:
+    - perl-DBI 
+    - perl-DBD-MySQL
+    - perl-Config-Tiny
+    - perl-ExtUtils-MakeMaker
+    - perl-CPAN
+    - perl-App-cpanminus
+...

@@ -1,0 +1,46 @@
+---
+ - name: Install Dependent Packages
+   yum:
+    name: "{{ item }}"
+    state: present
+   with_items:
+    - jemalloc
+    - jemalloc-devel
+
+ - name: Get Redis Source Code
+   uri:
+    url: "{{ redis_package_url }}"
+    dest: "{{ build_dir }}"
+    creates: "{{ build_dir }}/{{ redis_package }}.tar.gz"
+
+ - block: 
+    - debug: 
+       msg: Build Redis Source Code
+    - unarchive:
+       src: "{{ build_dir }}/{{ redis_package }}.tar.gz"
+       dest: "{{ build_dir }}"
+       copy: no
+       creates: "{{ build_dir }}/{{ redis_package }}"
+    - shell: cd "{{ build_dir }}/{{ redis_package }}" && make clean && make distclean && make && make "PREFIX={{ redis_install_dir }}" install
+ 
+ - block:
+    - debug:
+       msg: Generate Redis Instance Dir
+    - command: ls -d /data0/scripts
+      register: result
+      ignore_errors: True
+    - git: 
+       repo: "{{ scripts_url }}"
+       dest: "{{ scripts_dir }}"
+       clone: yes
+       force: yes
+    - command: /bin/bash "{{ scripts_dir }}/redis/redis_gen.sh" "{{ redis_port }}"
+      notify:
+       - Restart Redis
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ redis_instance_dir }}/{{ redis_port }}/redisd start" >> /etc/rc.local
+
+ - name: Export PATH
+   shell: echo "export PATH={{ redis_install_dir }}/bin:\$PATH" >> /root/.bash_profile
+...

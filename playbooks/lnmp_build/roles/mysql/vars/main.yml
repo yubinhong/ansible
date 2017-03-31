@@ -1,0 +1,8 @@
+---
+mysql_package: percona-server-5.6.29-76.2
+mysql_package_url: "{{ package_url_prefix }}/mysql/{{ mysql_package }}.tar.gz"
+tools_package_url: ["{{ package_url_prefix }}/mysql/percona-toolkit-2.2.17-1.noarch.rpm", "{{ package_url_prefix }}/mysql/percona-xtrabackup-24-2.4.2-1.el7.x86_64.rpm"]
+mysql_user: mysql
+mysql_port: 3306
+mysql_install_dir: /usr/local/webserver/mysql
+mysql_datadir: /data0/mysql

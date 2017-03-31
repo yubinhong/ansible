@@ -1,0 +1,30 @@
+---
+ - name: Get node.js package from source
+   get_url:
+     url: "{{ node_package_url }}.tar.xz"
+     dest: "{{ build_dir }}"
+
+ - name: unarchive node
+   unarchive:
+     src: "{{ build_dir }}/node-{{ node_version }}-linux-x64.tar.xz"
+     dest: "{{ node_install_dir }}"
+     remote_src: yes
+     creates: "{{ node_install_dir }}/node"
+
+ - name: link node
+   file:
+     src: "{{ node_install_dir }}/node-{{ node_version }}-linux-x64"
+     path: "{{ node_link_dir }}"
+     state: link
+     force: yes
+
+ - name: Export PATH
+   lineinfile:
+     dest: "/root/.bash_profile"
+     line: "{{ item }}"
+   with_items:       
+     - "export PATH={{ node_link_dir }}/bin:$PATH" 
+
+ - name: source profile
+   shell: "source /root/.bash_profile"
+...

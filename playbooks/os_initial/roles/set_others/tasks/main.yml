@@ -1,0 +1,52 @@
+---
+ - name: Close Selinux
+   selinux: 
+    state: disabled
+
+ - name: Close Firewall On Centos 6
+   service: 
+    name: iptables
+    state: stopped
+    enabled: no
+   when: ansible_distribution_major_version == "6"
+
+ - name: Close Firewall On Centos 7
+   service: 
+    name: firewalld
+    state: stopped
+    enabled: no
+   when: ansible_distribution_major_version == "7"
+
+ - name: Chmod /etc/rc.d/rc.local
+   file: 
+    path: '/etc/rc.d/rc.local'
+    mode: "u+rwx"
+    state: file
+
+# - name: Set System Command's Subcommand Automatic Completion
+#   shell: "source /usr/share/bash-completion/bash_completion"
+
+ - block: 
+    - debug:
+       msg: "Change PYPI Source"
+    - file:
+       path: "~/.pip"
+       state: directory
+    - copy:
+       src: "pip.conf"
+       dest: "~/.pip/pip.conf"
+
+ - name: Update Pip
+   pip:
+    name: "pip"
+    state: latest 
+
+ - name: Update Kernel
+   yum:
+    name: "*"
+    state: latest 
+
+ - name: Reboot System
+   command: init 6
+   ignore_errors: True
+

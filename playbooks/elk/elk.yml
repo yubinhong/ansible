@@ -1,0 +1,29 @@
+---
+ - hosts: logstash
+   roles:
+    - role: logstash
+
+ - hosts: logstash_2x
+   roles:
+    - role: logstash_2x
+
+ - hosts: elasticsearch
+   roles:
+    - role: elasticsearch
+
+ - hosts: kibana
+   roles:
+    - role: kibana
+
+ - hosts: filebeat
+   roles:
+    - role: filebeat
+
+ - hosts: heka
+   roles:
+    - role: heka
+
+ - hosts: curator
+   roles:
+    - role: curator
+...

@@ -1,0 +1,94 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+ - name: Install Dependent Packages
+   yum:
+    name: "{{ item }}"
+    state: present
+   with_items:
+    - cmake
+    - libaio-devel
+    - zlib-devel
+    - openssl-devel
+    - systemtap
+    - readline-devel
+    - ncurses-devel
+
+ - name: Get Mysql Source Code
+   uri:
+    url: "{{ mysql_package_url }}"
+    dest: "{{ build_dir }}"
+    creates: "{{ build_dir }}/{{ mysql_package }}.tar.gz"
+
+ - block: 
+    - debug: 
+       msg: Build Mysql Source Code
+    - unarchive:
+       src: "{{ build_dir }}/{{ mysql_package }}.tar.gz"
+       dest: "{{ build_dir }}"
+       copy: no
+       creates: "{{ build_dir }}/{{ mysql_package }}"
+    - shell: cd "{{ build_dir }}/{{ mysql_package }}" && cmake ./ \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql \
+        -DWITH_PARTITION_STORAGE_ENGINE=1 \
+        -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+        -DWITH_ARCHIVE_STORAGE_ENGINE=1 \
+        -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+        -DWITH_CSV_STORAGE_ENGINE=1 \
+        -DWITH_HEAP_STORAGE_ENGINE=1 \
+        -DWITH_MYISAM_STORAGE_ENGINE=1 \
+        -DWITH_MYISAMMRG_STORAGE_ENGINE=1 \
+        -DWITH_ZLIB=bundled \
+        -DENABLED_LOCAL_INFILE=1 \
+        -DDEFAULT_CHARSET=utf8 \
+        -DDEFAULT_COLLATION=utf8_general_ci \
+        -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
+        -DWITH_DEBUG=0 \
+        -DWITH_EMBEDDED_SERVER=1 \
+        -DWITH_FAST_MUTEXES=1 \
+        -DWITH_EDITLINE=bundled 
+    - shell: cd "{{ build_dir }}/{{ mysql_package }}" && make && make install
+   tags: [Build]
+ 
+ - block:
+    - debug:
+       msg: Generate Mysql Data Directory
+    - file:
+       path: "{{ mysql_datadir }}/{{ mysql_port }}/{{ item }}"
+       state: directory
+       owner: "{{ mysql_user }}"
+       group: "{{ mysql_user }}"
+      with_items:
+       - data
+       - logs/binlog
+       - logs/relaylog
+    - template:
+       src: "{{ item.name }}.j2"
+       dest: "{{ mysql_datadir }}/{{ mysql_port }}/{{ item.name }}"
+       owner: "{{ mysql_user }}"
+       group: "{{ mysql_user }}"
+       mode: "{{ item.mode }}"
+      with_items:
+       - {name: my.cnf, mode: 600}
+       - {name: mysqld, mode: 700}
+    - shell: "{{ mysql_install_dir }}/scripts/mysql_install_db --defaults-file={{ mysql_datadir }}/{{ mysql_port }}/my.cnf --basedir={{ mysql_install_dir }}"
+
+ - name: Install Mysql Tools
+   yum:
+    name: "{{ item }}"
+    state: present
+   with_items: "{{ tools_package_url }}"
+
+ - name: Start Daemon When System Boot
+   shell: echo "{{ mysql_datadir }}/{{ mysql_port }}/mysqld start" >> /etc/rc.local
+
+ - name: Ldconfig Mysql Libs
+   shell: echo "{{ mysql_install_dir }}/lib" >> /etc/ld.so.conf.d/mysql.conf && ldconfig
+
+ - name: Export PATH
+   shell: echo "export PATH={{ mysql_install_dir }}/bin:\$PATH" >> /root/.bash_profile
+
+...

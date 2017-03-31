@@ -1,0 +1,17 @@
+---
+ - name: Modify /etc/security/limits.conf
+   pam_limits:
+    domain: "*"
+    limit_item: "{{ item.item }}"
+    limit_type: "{{ item.type }}"
+    value: "{{ item.value }}"
+   with_items: 
+    - {item: nproc, type: -, value: 102400}
+    - {item: nofile, type: -, value: 102400}
+
+ - name: Modify /etc/systemd/system.conf
+   copy:
+    src: system.conf
+    dest: /etc/systemd/system.conf
+   when: ansible_distribution_major_version  == "7"
+...

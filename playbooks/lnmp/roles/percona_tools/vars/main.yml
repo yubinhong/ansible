@@ -1,0 +1,2 @@
+---
+tools_package_url: [ "{{ package_url_prefix }}/mysql/percona-toolkit-2.2.17-1.noarch.rpm", "{{ package_url_prefix }}/mysql/percona-xtrabackup-24-2.4.2-1.el{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm" ]

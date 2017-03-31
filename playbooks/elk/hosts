@@ -1,0 +1,15 @@
+[filebeat]
+
+[logstash]
+192.168.100.3
+
+[logstash_2x]
+
+[elasticsearch]
+
+[kibana]
+
+[curator]
+
+#未写完
+[heka]

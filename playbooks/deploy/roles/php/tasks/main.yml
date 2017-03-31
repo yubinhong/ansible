@@ -1,0 +1,21 @@
+---
+ - name: copy the php template
+   template:
+    src: template.j2
+    dest: "{{ php_conf_dir }}/{{ master_domain }}.conf"
+   when: type == "php"
+ 
+# - name: change the domain name in the php conf
+#   replace:
+#    dest: "{{ php_conf_dir }}/{{ master_domain }}.conf"
+#    regexp: 'template'
+#    replace: '{{ master_domain }}'
+
+ - name: start php program
+   shell: "{{ php_bin_dir }}/php-fpm"
+   register: result
+   ignore_errors: True
+
+ - name: restart php program
+   shell: "kill -USR2 `ps aux|grep php|grep master|grep -v grep|awk '{print $2}'`"
+   when: result.rc != 0
