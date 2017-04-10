@@ -1,6 +1,22 @@
-[lnmp]
+[php]
 
-127.0.0.1
+[php_git]
+
+[php_git:vars]
+git_group='test-for-gitlab'
+repo_name='test-git.git'
+
+
 [html]
-127.0.0.1
 
+[proxy]
+
+[proxy:vars]
+proxy_host=''
+proxy_port=''
+#proxy_port='3000'
+
+[all:vars]
+master_domain='www.test.com'
+type='html'
+# type ---- html|php|php_ssl|proxy ----

@@ -17,12 +17,11 @@
      dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
     when: type == "php_ssl"
 
-  - block:
-     - debug:
-        msg: "copy and change the proxy conf"
-     - template:
-        src: "proxy.conf.j2"    
-        dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
+
+  - name: "copy and change the proxy conf"
+    template:
+      src: "proxy.conf.j2"    
+      dest: "{{ nginx_vhosts_dir }}/{{ master_domain }}.conf"
     when: type == "proxy"
 
   - name: change domain name  in the nginx conf

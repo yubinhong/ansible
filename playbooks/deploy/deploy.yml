@@ -1,0 +1,17 @@
+---
+ - hosts: html
+   roles:
+     - nginx
+     - svncode
+
+ - hosts: php
+   roles:
+     - nginx
+     - php
+     - svncode
+
+ - hosts: php_git
+   roles:
+     #- nginx
+     #- php
+     - gitcode
