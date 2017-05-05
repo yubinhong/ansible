@@ -2,16 +2,17 @@
  - hosts: html
    roles:
      - nginx
-     - svncode
+     #- svncode
 
  - hosts: php
    roles:
      - nginx
      - php
      - svncode
+     - mysql
 
  - hosts: php_git
    roles:
-     #- nginx
-     #- php
+     - nginx
+     - php
      - gitcode

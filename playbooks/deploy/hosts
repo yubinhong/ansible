@@ -3,11 +3,12 @@
 [php_git]
 
 [php_git:vars]
-git_group='test-for-gitlab'
-repo_name='test-git.git'
+git_group=''
+repo_name=''
 
 
 [html]
+
 
 [proxy]
 
@@ -17,6 +18,6 @@ proxy_port=''
 #proxy_port='3000'
 
 [all:vars]
-master_domain='www.test.com'
-type='html'
+master_domain=''
+type=''
 # type ---- html|php|php_ssl|proxy ----

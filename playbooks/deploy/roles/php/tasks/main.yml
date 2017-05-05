@@ -12,7 +12,7 @@
 #    replace: '{{ master_domain }}'
 
  - name: start php program
-   shell: "{{ php_bin_dir }}/php-fpm"
+   shell: "{{ php_bin_dir }}/php-fpm > /dev/null 2>&1"
    register: result
    ignore_errors: True
 

@@ -8,6 +8,7 @@
    git:
      repo: "{{ git_url }}/{{ git_group }}/{{ repo_name }}"
      dest: "{{ web_dir }}/{{ master_domain }}"
+     accept_hostkey: yes
      clone: yes
  
  #- name: rename the code dir
