@@ -1,0 +1,29 @@
+---
+ - name: Import Secret Vars
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+
+
+ - name: Get PHP Suhosin Source Code
+   uri:
+    url: "{{ suhosin_package_url }}"
+    dest: "{{ build_dir }}"
+    creates: "{{ build_dir }}/{{ suhosin_package }}.tar.gz"
+    validate_certs: no
+
+ - block: 
+    - debug: 
+       msg: Build PHP Source Code
+    - unarchive:
+       src: "{{ build_dir }}/{{ suhosin_package }}.tar.gz"
+       dest: "{{ build_dir }}"
+       copy: no
+       creates: "{{ build_dir }}/{{ suhosin_package }}"
+    - shell: cd "{{ build_dir }}/{{ suhosin_package }}" && {{ php_install_dir }}/bin/phpize
+    - shell: cd "{{ build_dir }}/{{ suhosin_package }}" && ./configure --with-php-config={{ php_install_dir }}/bin/php-config
+    - shell: cd "{{ build_dir }}/{{ suhosin_package }}" && make && make install
+    - shell: echo "extension = suhosin.so" >> {{ php_install_dir }}/etc/php.ini
+    - shell: echo "suhosin.executor.disable_eval = on" >> {{ php_install_dir }}/etc/php.ini
+    - shell: ps ajfx|grep php-fpm|grep master|grep -v grep|awk '{print $2}'|xargs kill -USR2
+...
