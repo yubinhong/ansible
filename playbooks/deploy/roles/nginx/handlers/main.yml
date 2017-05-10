@@ -1,9 +1,3 @@
 ---
- - name: Test Nginx Conf
-   command: "{{ nginx_basedir }}/sbin/nginx -t"
-   register: result
-   ignore_errors: True
-
  - name: Reload Nginx
    command: "{{ nginx_basedir }}/sbin/nginx -s reload"
-   when: result.rc == 0

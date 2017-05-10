@@ -9,7 +9,6 @@
      - nginx
      - php
      - svncode
-     - mysql
 
  - hosts: php_git
    roles:

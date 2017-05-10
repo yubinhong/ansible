@@ -1,9 +1,7 @@
 ---
- - name: Restart Sshd On CentOS 7
-   shell: systemctl restart sshd
-
- - name: Restart Sshd On CentOS 6
+ - name: Restart sshd
    service: 
     name: sshd 
     state: restarted
+    enabled: yes
 ...
