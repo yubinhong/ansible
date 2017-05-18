@@ -36,9 +36,13 @@
     state: directory
 
  - name: Start Daemon When System Boot
-   shell: echo "{{ php_install_dir }}/sbin/php-fpm" >> /etc/rc.local       
+   lineinfile:
+    dest: /etc/rc.local
+    line: "{{ php_install_dir }}/sbin/php-fpm"     
 
  - name: Set Environment PATH
-   shell: echo "export PATH={{ php_install_dir }}/bin:\$PATH" >> /etc/.bash_profile
+   lineinfile: 
+    dest: /etc/profile    
+    line: "export PATH={{ php_install_dir }}/bin:$PATH"
 
 ...

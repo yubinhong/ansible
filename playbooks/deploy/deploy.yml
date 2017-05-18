@@ -15,3 +15,7 @@
      - nginx
      - php
      - gitcode
+
+ - hosts: svn_hook
+   roles:
+     - svn_hook

@@ -4,10 +4,16 @@
    with_items:
     - "secret.yml"
 
- - name: checkout the code
+ - name: Checkout The Code From svn
    subversion:
     repo: "{{ svn_url }}/{{ master_domain }}/trunk"
     username: "{{ SVN_USER }}"
     password: "{{ SVN_PASSWD }}"
     dest: "{{ web_dir }}/{{ master_domain }}"
     force: yes
+
+ - name: Change Owner For Web Dir
+   file:
+    path: "{{ web_dir }}/{{ master_domain }}"
+    owner: www
+    group: www

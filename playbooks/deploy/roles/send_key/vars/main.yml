@@ -1,0 +1,4 @@
+---
+file_name: "id_rsa"
+key_dir: "/root/.ssh"
+user: "root"

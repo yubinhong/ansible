@@ -32,7 +32,9 @@
    shell: ldconfig
 
  - name: Set Environment PATH
-   shell: echo "export PATH={{ mysql_install_dir }}/bin:\$PATH" >> /root/.bash_profile
+   lineinfile: 
+    dest: /root/.bash_profile
+    line: "export PATH={{ mysql_install_dir }}/bin:$PATH"
 
  - block:
     - debug:
@@ -59,6 +61,7 @@
     - shell: "{{ mysql_install_dir }}/scripts/mysql_install_db --defaults-file={{ mysql_datadir }}/{{ mysql_port }}/my.cnf --basedir={{ mysql_install_dir }}"
 
  - name: Start Daemon When System Boot
-   shell: echo "{{ mysql_datadir }}/{{ mysql_port }}/mysqld start" >> /etc/rc.local
-
+   lineinfile:
+    dest: /etc/rc.d/rc.local
+    line: "{{ mysql_datadir }}/{{ mysql_port }}/mysqld start"
 ...
