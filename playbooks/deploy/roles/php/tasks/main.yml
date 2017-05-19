@@ -2,14 +2,14 @@
  - name: copy the php template
    template:
     src: template.j2
-    dest: "{{ php_conf_dir }}/{{ master_domain }}.conf"
+    dest: "{{ php_conf_dir }}/{{ nginx_server_name }}.conf"
    when: type == "php"
  
 # - name: change the domain name in the php conf
 #   replace:
-#    dest: "{{ php_conf_dir }}/{{ master_domain }}.conf"
+#    dest: "{{ php_conf_dir }}/{{ nginx_server_name }}.conf"
 #    regexp: 'template'
-#    replace: '{{ master_domain }}'
+#    replace: '{{ nginx_server_name }}'
 
  - name: start php program
    shell: "{{ php_bin_dir }}/php-fpm > /dev/null 2>&1"

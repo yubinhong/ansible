@@ -1,7 +1,7 @@
 server {
-    set $Site www.test.com;
+    set $Site {{nginx_server_name}};
     listen 80;
-    server_name www.test.com;
+    server_name {{nginx_server_name}};
 
     location / {
         proxy_pass http://{{ proxy_host }}:{{ proxy_port }};
@@ -10,5 +10,5 @@ server {
 
     include setup/common/*.conf;
 
-    access_log /data0/logs/nginx/www.test.com.access.log  main_product;
+    access_log /data0/logs/nginx/{{nginx_server_name}}.access.log  main_product;
 }

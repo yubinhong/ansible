@@ -4,16 +4,18 @@
    with_items:
     - "secret.yml"
 
- - name: git clone the code
+ - name: Git Clone The Code
    git:
-     repo: "{{ git_url }}/{{ git_group }}/{{ repo_name }}"
-     dest: "{{ web_dir }}/{{ master_domain }}"
+     repo: "{{ git_url }}/{{ git_url_suffix}}"
+     dest: "{{ web_dir }}/{{ nginx_server_name }}"
+     version: "{{ git_branch }}"
      accept_hostkey: yes
      clone: yes
  
- #- name: rename the code dir
- #  file:
- #    src: "{{ web_dir}}/{{ repo_name }}"
- #    dest: "{{ web_dir }}/{{ master_domain }}"
- #    state: directory
-   
+ - name: Change Owner Of The Code
+   file:
+     path: "{{ web_dir}}/{{ nginx_server_name }}"
+     owner: www
+     group: www
+     state: directory
+     recurse: yes

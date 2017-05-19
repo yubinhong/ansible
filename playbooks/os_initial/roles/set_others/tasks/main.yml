@@ -9,6 +9,7 @@
     state: stopped
     enabled: no
    when: ansible_distribution_major_version == "6"
+   ignore_errors: True
 
  - name: Close Firewall On Centos 7
    service: 
@@ -16,15 +17,13 @@
     state: stopped
     enabled: no
    when: ansible_distribution_major_version == "7"
+   ignore_errors: True
 
  - name: Chmod /etc/rc.d/rc.local
    file: 
     path: '/etc/rc.d/rc.local'
     mode: "u+rwx"
     state: file
-
-# - name: Set System Command's Subcommand Automatic Completion
-#   shell: "source /usr/share/bash-completion/bash_completion"
 
  - block: 
     - debug:

@@ -1,24 +1,26 @@
 ---
- - name: Get node.js package from source
+ - name: Get node.js Package From Source
    get_url:
      url: "{{ node_package_url }}.tar.xz"
      dest: "{{ build_dir }}"
 
- - name: unarchive node
+ - name: Unarchive Node
    unarchive:
      src: "{{ build_dir }}/node-{{ node_version }}-linux-x64.tar.xz"
      dest: "{{ node_install_dir }}"
      remote_src: yes
-     creates: "{{ node_install_dir }}/node"
 
- - name: link node
+ - name: Rename Node Install Dir
+   shell: "mv {{ node_install_dir }}/node-{{ node_version }}-linux-x64 {{ node_install_dir }}/node-{{ node_version }}"
+
+ - name: Link Node
    file:
-     src: "{{ node_install_dir }}/node-{{ node_version }}-linux-x64"
+     src: "{{ node_install_dir }}/node-{{ node_version }}"
      path: "{{ node_link_dir }}"
      state: link
      force: yes
 
- - name: add node mirror source
+ - name: Add node Mirror Source
    template: src=npmrc.j2 dest=~/.npmrc
 
  - name: Export PATH
@@ -26,6 +28,6 @@
      dest: "/root/.bash_profile"
      line: "export PATH={{ node_link_dir }}/bin:$PATH" 
 
- - name: source profile
+ - name: Source Profile
    shell: "source /root/.bash_profile"
 ...

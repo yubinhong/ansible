@@ -2,7 +2,7 @@
  - hosts: html
    roles:
      - nginx
-     #- svncode
+     - svncode
 
  - hosts: php
    roles:

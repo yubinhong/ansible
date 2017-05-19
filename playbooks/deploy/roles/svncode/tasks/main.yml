@@ -6,14 +6,16 @@
 
  - name: Checkout The Code From svn
    subversion:
-    repo: "{{ svn_url }}/{{ master_domain }}/trunk"
+    repo: "{{ svn_url }}/{{ nginx_server_name }}/trunk"
     username: "{{ SVN_USER }}"
     password: "{{ SVN_PASSWD }}"
-    dest: "{{ web_dir }}/{{ master_domain }}"
+    dest: "{{ web_dir }}/{{ nginx_server_name }}"
     force: yes
 
  - name: Change Owner For Web Dir
    file:
-    path: "{{ web_dir }}/{{ master_domain }}"
+    path: "{{ web_dir }}/{{ nginx_server_name }}"
     owner: www
     group: www
+    state: directory
+    recurse: yes

@@ -1,11 +1,11 @@
 server {
-    set $Site www.test.com;
+    set $Site {{nginx_server_name}};
     listen 80;
-    server_name www.test.com;
+    server_name {{nginx_server_name}};
     index index.php index.html index.htm;
     root /data0/web/$Site;
 
     include setup/common/*.conf;
 
-    access_log /data0/logs/nginx/www.test.com.access.log  main_product;
+    access_log /data0/logs/nginx/{{nginx_server_name}}.access.log  main_product;
 }

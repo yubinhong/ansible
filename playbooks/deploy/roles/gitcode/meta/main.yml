@@ -1,3 +1,0 @@
----
-dependencies:
- - { role: send_key }

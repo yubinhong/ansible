@@ -1,22 +1,25 @@
 [php]
-112.74.39.217
 
 [php_git]
+192.168.100.5
 
 [php_git:vars]
-git_group=''
-repo_name=''
+git_url_suffix='ops/ansible.git'
+git_branch='develop'
+
 
 [all:vars]
-master_domain='www.aiuyi.cn'
+nginx_server_name='ansible.test.com'
+nginx_www_dir='/data0/web/$Site/public'
 type='php'
 # type ---- html|php|php_ssl|proxy ----
+#ansible_ssh_port=2289
 
 [svn_hook]
-192.168.100.1
+#192.168.100.1
 
 [svn_hook:vars]
-server_ip='112.74.39.217'
+#server_ip='112.74.39.217'
 
 
 [html]

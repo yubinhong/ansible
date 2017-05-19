@@ -1,4 +1,5 @@
 ---
  - hosts: node
+   gather_facts: false
    roles:
    - nodejs
