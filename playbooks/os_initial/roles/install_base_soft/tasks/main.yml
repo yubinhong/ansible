@@ -26,8 +26,8 @@
    register: result
    retries: 3
    delay: 1
-   until: result.rc ==  1 or result.rc == 0
-
+#   until: result.rc ==  1 or result.rc == 0
+   until: result|succeeded
  - name: Install Tools Software
    yum: 
     name: "{{ item }}"
@@ -62,19 +62,37 @@
     - sysstat
     - lsof
     - tcpdump
+    - mtr
 
  - name: Install Python Software
    yum: 
     name: "{{ item }}"
     state: present
    with_items: 
-    - python2-pip
     - python-simplejson
     - python-httplib2
     - python34
     - python34-devel
-    - python34-pip
     - python-devel
+    - libselinux-python
+
+ - name: Install Python Software On Centos 6
+   yum: 
+    name: "{{ item }}"
+    state: present
+   when: ansible_distribution_major_version == '6'
+   with_items: 
+    - python-pip
+
+ - name: Install Python Software On Centos 7
+   yum: 
+    name: "{{ item }}"
+    state: present
+   when: ansible_distribution_major_version == '7'
+   with_items: 
+    - python2-pip
+    - python34-pip
+
 
  - name: Install Perl Software
    yum: 
@@ -86,5 +104,4 @@
     - perl-Config-Tiny
     - perl-ExtUtils-MakeMaker
     - perl-CPAN
-    - perl-App-cpanminus
 ...

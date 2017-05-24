@@ -3,7 +3,7 @@ server {
     listen 443 ssl;
     server_name {{ domain }};
     index index.php index.html index.htm;
-    root /data0/web/$Site;
+    root {{nginx_www_dir}};
 
     location / {
         if (!-e $request_filename) {
