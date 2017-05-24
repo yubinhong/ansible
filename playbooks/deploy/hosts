@@ -1,16 +1,16 @@
 [php]
 
 [php_git]
-192.168.100.5
+120.24.77.188
 
 [php_git:vars]
-git_url_suffix='ops/ansible.git'
+git_url_suffix='dingtalk/dingtalk-mail.git'
 git_branch='develop'
 
 
 [all:vars]
-nginx_server_name='ansible.test.com'
-nginx_www_dir='/data0/web/$Site/public'
+nginx_server_name='dingtalk-mail.miguantech.com'
+nginx_www_dir='/data0/web/$Site/phone/dist'
 type='php'
 # type ---- html|php|php_ssl|proxy ----
 #ansible_ssh_port=2289
