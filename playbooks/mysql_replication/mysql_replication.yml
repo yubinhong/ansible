@@ -1,0 +1,9 @@
+---
+ - hosts: mysql_master
+   roles:
+    - replication_init
+    - mysql_master 
+
+ - hosts: mysql_slave
+   roles:
+    - mysql_slave

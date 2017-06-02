@@ -1,0 +1,7 @@
+---
+bak_dir: "/data0"
+bak_port: "3307"
+mysql_bak_dir: "{{ mysql_dir }}/{{ bak_port }}"
+mysql_conf: "{{ mysql_bak_dir }}/my.cnf"
+mysql_data_dir: "{{ mysql_bak_dir }}/data"
+mysql_sock: "{{ mysql_bak_dir }}/mysql.sock"
