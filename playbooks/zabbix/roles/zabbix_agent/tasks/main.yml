@@ -34,8 +34,10 @@
  - name: Create Zabbix Monitor Logs Directory
    file:
     path: "/data0/logs/zabbix_agent"
-    recurse: yes
+    owner: zabbix
+    group: zabbix
     state: directory
+    recurse: yes
 
  - name: Checkout Zabbix_agentd.d
    subversion:
