@@ -1,0 +1,38 @@
+---
+ - name: Import secret yml
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+ 
+ - name: Install mysql-python
+   yum:
+     name: MySQL-python
+     state: present
+
+ - name: Create a new database
+   mysql_db:
+     login_unix_socket: "{{ mysql_sock_dir }}"
+     name: "{{ db_name }}"
+     state: present
+
+
+ - name: Grant privileges
+   mysql_user:
+     login_unix_socket: "{{ mysql_sock_dir }}"
+     name: "{{ db_name }}"
+     password: "{{ db_passwd }}"
+     host: "{{ db_host }}"
+     priv:  "{{ db_name }}.*:ALL"
+     state: present
+
+ - name: Grant developers privileges
+   mysql_user:
+     login_unix_socket: "{{ mysql_sock_dir }}"
+     name: "{{ item.key }}"
+     password: "{{ item.value }}"
+     host: "{{ user_host }}"
+     priv: "{{ db_name }}.*:ALL"
+     state: present
+   with_dict: "{{ developers }}"
+   
+ 
