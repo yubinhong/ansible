@@ -1,0 +1,33 @@
+---
+ - name: Import Secret Yml
+   include_vars: "{{ item }}"
+   with_items:
+     - "secret.yml"
+
+ - name: Get Composer  
+   get_url:
+     url: "{{ composer_url }}"
+     dest: "{{ temp_dir }}"
+
+ - name: Move Composer To Path
+   synchronize:
+     src: "{{ temp_dir }}/{{ composer_name }}"
+     dest: /usr/local/bin/
+   delegate_to: "{{ inventory_hostname }}"
+
+ - name: Move Composer To Path
+   shell: "mv  {{ composer_name }}  composer"
+   args:
+     chdir: /usr/local/bin
+
+ - name: Change Mode
+   file:
+     path: /usr/local/bin/composer
+     mode: u+x
+
+ - setup: filter="ansible_env"
+ - name: Add Composer Mirror Source
+   shell: "/usr/local/bin/composer config -g repo.packagist composer https://packagist.phpcomposer.com"
+   environment:
+     PATH: "/usr/local/webserver/php/bin:{{ ansible_env.PATH }}"
+...

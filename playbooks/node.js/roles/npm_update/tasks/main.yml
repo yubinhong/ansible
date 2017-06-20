@@ -1,0 +1,10 @@
+---
+ - setup: filter=ansible_env
+ - name: Update npm version 
+   npm:
+     executable: "{{ node_link_install }}/bin/npm"
+     name: npm
+     global: yes
+     state: latest
+   environment:
+     PATH: "{{ node_link_install }}/bin:{{ ansible_env.PATH }}"

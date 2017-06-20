@@ -1,5 +1,12 @@
 ---
  - hosts: node
-   gather_facts: false
    roles:
    - nodejs
+
+ - hosts: composer
+   roles:
+   - composer
+
+ - hosts: npm_update 
+   roles:
+   - npm_update
