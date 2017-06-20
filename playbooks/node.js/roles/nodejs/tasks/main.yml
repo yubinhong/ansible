@@ -2,7 +2,7 @@
  - name: Get node.js Package From Source
    get_url:
      url: "{{ node_package_url }}.tar.xz"
-     dest: "{{ build_dir }}"
+     dest: "{{ temp_dir }}"
 
  - name: Unarchive Node
    unarchive:
@@ -12,7 +12,6 @@
 
  - name: Rename Node Install Dir
    shell: "mv {{ node_install_dir }}/node-{{ node_version }}-linux-x64 {{ node_install_dir }}/node-{{ node_version }}"
-   run_once: true   
 
  - name: Link Node
    file:
@@ -26,9 +25,9 @@
 
  - name: Export PATH
    lineinfile:
-     dest: "/etc/profile"
+     dest: "/root/.bash_profile"
      line: "export PATH={{ node_link_dir }}/bin:$PATH" 
 
  - name: Source Profile
-   shell: "source /etc/profile"
+   shell: "source /root/.bash_profile"
 ...
