@@ -14,8 +14,9 @@
 # this script assumes all options are in the config file.
 CONFIGFILE="{{mongodb_conf}}"
 OPTIONS=" -f $CONFIGFILE"
+MONGOD="{{mongodb_link_path}}/bin/mongod"
 
-mongod=${MONGOD-/usr/local/mongodb/bin/mongod}
+mongod=${MONGOD-/usr/bin/mongod}
 
 MONGO_USER={{mongodb_user}}
 MONGO_GROUP={{mongodb_user}}

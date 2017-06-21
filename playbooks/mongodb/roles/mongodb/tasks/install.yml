@@ -1,44 +1,41 @@
 ---
-# author: lework
-
 - name: Check if mongodb local file is already configured.
   stat: path={{ mongodb_file_path }}
-  connection: local
   register: mongodb_file_result
-
-- name: Create software files .
-  file: path={{ software_files_path }} state=directory
-  connection: local
-  when: not mongodb_file_result.stat.exists
   
 - name: Download mongodb file.
   get_url: url={{ mongodb_file_url }} dest={{ software_files_path }}
-  connection: local
   when: not mongodb_file_result.stat.exists
 
 - name: Copy mongodb file to agent.
   unarchive:
     src: "{{ mongodb_file_path }}"
     dest: "{{ software_install_path }}"
-    creates: "{{ software_install_path}}/mongodb-linux-x86_64-rhel62-{{ mongodb_version }}"
+    creates: "{{ software_install_path}}/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}"
 
-- name: Check if mongodb remote soft link is already configured.
-  stat: path="{{ software_install_path }}/mongodb"
-  register: mongodb_soft_link_result
+- name: Rename mongodb dir
+  shell: "mv mongodb-linux-x86_64-rhel70-{{ mongodb_version }}   mongodb-{{ mongodb_version }}"
+  args:
+    chdir: "{{ software_install_path }}"
 
 - name: Create mongodb dir soft link.
-  file: "src={{ software_install_path }}/mongodb-linux-x86_64-rhel62-{{ mongodb_version }} dest={{ software_install_path }}/mongodb state=link"
-  when: not mongodb_soft_link_result.stat.exists
+  file: "src={{ software_install_path }}/mongodb-{{ mongodb_version }} dest={{ mongodb_link_path }} state=link"
 
 - name: Config environment variable.
-  lineinfile: dest=/etc/profile line='export PATH={{ software_install_path }}/mongodb/bin/:$PATH'
+  lineinfile: dest=/etc/profile line='export PATH={{ mongodb_link_path }}/bin/:$PATH'
   run_once: yes
 
 - name: Create mongodb group.
-  group: name={{ mongodb_user }}
+  group: name={{ mongodb_user }} state=present
 
 - name: Create mongodb user.
-  user: name={{ mongodb_user }} group={{ mongodb_user }} shell=/sbin/nologin
+  user: 
+    name: "{{ mongodb_user }}" 
+    group: "{{ mongodb_user }}"
+    shell: /sbin/nologin 
+    createhome: no
+    comment: MongoDB Server
+    state: present
 
 - name: Set transparent_hugepage to never.
   command: "echo never > {{ item }}"
