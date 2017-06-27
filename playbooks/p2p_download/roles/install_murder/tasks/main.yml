@@ -1,0 +1,6 @@
+---
+ - name: Git Clone Murder
+   git:
+     repo: https://github.com/lg/murder.git
+     dest: /usr/local/murder
+     clone: yes 

@@ -1,0 +1,3 @@
+---
+ - name: make torrent
+   shell: "python {{ murder_install_dir }}/murder_make_torrent.py {{ distribute_path }} {{ansible_default_ipv4.address}}:8998 {{distribute_name}}.torrent"

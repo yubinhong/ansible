@@ -1,0 +1,3 @@
+---
+ - name: start seeding
+   shell: SCREENRC=/dev/null SYSSCREENRC=/dev/null screen -dmS 'seeder' python {{ murder_install_dir }}/murder_client.py seeder '/root/{{ distribute_name }}.torrent' '{{ distribute_path }}' {{ ansible_default_ipv4.address }}

@@ -1,0 +1,4 @@
+---
+ - hosts: peer
+   roles:
+     - start_peering
