@@ -1,6 +1,57 @@
 ---
+ - name: Install Base Software
+   yum: 
+    name: "{{ item }}" 
+    state: present
+   with_items:
+    - screen 
+    - git
+
  - name: Git Clone Murder
    git:
      repo: https://github.com/lg/murder.git
      dest: /usr/local/murder
      clone: yes 
+
+ - name: Set tracker as system service on centos6
+   template: 
+    src: tracker.j2
+    dest: /etc/init.d/murder-tracker
+   when: ansible_distribution_major_version == '6'
+
+ - name: chmod the persimision for murder-tracker on centos6
+   file:
+     path: /etc/init.d/murder-tracker
+     mode: 0755
+   when: ansible_distribution_major_version == '6'
+
+ - name: Set seeder as system service on centos6
+   template: 
+    src: seeder.j2
+    dest: /etc/init.d/murder-seeder
+   when: ansible_distribution_major_version == '6'
+
+ - name: chmod the persimision for murder-seeder on centos6
+   file:
+     path: /etc/init.d/murder-seeder
+     mode: 0755
+   when: ansible_distribution_major_version == '6'
+
+ - name: Create the seeder.conf
+   template: 
+    src: seeder.conf.j2
+    dest: /usr/local/murder/dist/seeder.conf
+
+ - name: Set tracker as system service on centos7
+   template:
+     src: tracker.centos7.j2
+     dest: /etc/systemd/system/murder-tracker.service
+   when: ansible_distribution_major_version == '7'
+
+ - name: Set seeder as system service on centos7
+   template:
+     src: seeder.centos7.j2
+     dest: /etc/systemd/system/murder-seeder.service
+   when: ansible_distribution_major_version == '7'
+
+

@@ -1,0 +1,13 @@
+---
+ - name: start tracker on centos6
+#   shell: SCREENRC=/dev/null SYSSCREENRC=/dev/null screen -dmS 'tracker' python {{ murder_install_dir }}/murder_tracker.py > /dev/null 2>&1
+   service:
+     name: murder-tracker
+     state: started
+   when: ansible_distribution_major_version == '6'
+ - name: start tracker on centos7
+   systemd:
+     name: murder-tracker
+     daemon_reload: yes
+     state: started
+   when: ansible_distribution_major_version == '7'

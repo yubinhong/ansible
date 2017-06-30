@@ -4,7 +4,7 @@
 [nginx]
 
 [php]
-
+192.168.15.130
 [mysql]
 
 [percona_tools]

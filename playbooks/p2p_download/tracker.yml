@@ -1,0 +1,4 @@
+---
+- hosts: tracker
+  roles:
+    - start_tracker

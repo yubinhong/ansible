@@ -1,3 +1,27 @@
 ---
- - name: start seeding
-   shell: SCREENRC=/dev/null SYSSCREENRC=/dev/null screen -dmS 'seeder' python {{ murder_install_dir }}/murder_client.py seeder '/root/{{ distribute_name }}.torrent' '{{ distribute_path }}' {{ ansible_default_ipv4.address }}
+ - name: modified the deploy_file on centos6
+   replace:
+     dest: "{{ murder_install_dir }}/seeder.conf"
+     regexp: "deploy_file=.*"
+     replace: "deploy_file={{ distribute_path }}"
+     backup: no
+
+ - name: modified the torrent_file on centos6
+   replace:
+     dest: "{{ murder_install_dir }}/seeder.conf"
+     regexp: "torrent_file=.*"
+     replace: "torrent_file=/root/{{ distribute_name }}.torrent"
+     backup: no
+
+ - name: start seeding on centos6
+   service: 
+     name: murder-seeder
+     state: restarted
+   when: ansible_distribution_major_version == '6'
+
+ - name: start seeding on centos7
+   systemd:
+     name: murder-seeder
+     daemon_reload: yes
+     state: restarted
+   when: ansible_distribution_major_version == '7'

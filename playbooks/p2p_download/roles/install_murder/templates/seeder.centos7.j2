@@ -1,0 +1,22 @@
+[Unit]
+Description=murder-seeder
+After=syslog.target
+After=network.target
+
+[Service]
+# Modify these two values and uncomment them if you have
+# repos with lots of files and get an HTTP error 500 because
+# of that
+###
+#LimitMEMLOCK=infinity
+#LimitNOFILE=65535
+Type=simple
+User=nobody
+Group=nobody
+WorkingDirectory={{ murder_install_dir }}
+EnvironmentFile={{ murder_install_dir }}/seeder.conf
+#Environment=deploy_file=/data0/image/ torrent_file=/data0/murder/deploy.torrent local_ip={{ ansible_default_ipv4.address }}
+ExecStart=/usr/bin/python {{ murder_install_dir }}/murder_client.py $torrent_file $deploy_file $local_ip
+
+[Install]
+WantedBy=multi-user.target
