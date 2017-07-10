@@ -144,7 +144,7 @@ ServerActive={{ Zabbix_Server_IP }}
 # Default:
 # Hostname=
 
-Hostname={{ HostName }}
+Hostname={{ ansible_default_ipv4.address }}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
