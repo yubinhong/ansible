@@ -1,0 +1,6 @@
+---
+web_dir: /home/wwwroot
+nginx_conf_dir: /usr/local/nginx/conf/vhost
+nginx_server_name: "{{ pre_domain }}.{{ main_domain }}"
+main_domain_dir: "{{ web_dir }}/{{ main_domain }}"
+sub_domain_dir: "{{ main_domain_dir }}/{{ pre_domain }}"

@@ -1,0 +1,23 @@
+---
+ - name: Create Main Web Directory
+   file:
+     path: "{{ main_domain_dir }}"
+     state: directory
+     
+ - name: Create Sub Web Directory
+   file:
+     path: "{{ sub_domain_dir }}"
+     state: directory
+
+ - name: Copy The 2345 Navigate Html
+   template:
+     src: 2345.html.j2
+     dest: "{{ sub_domain_dir }}/index.html"
+   when: navi_channel == 2345
+
+ - name: Copy The 114 Navigate Html
+   template:
+     src: 114.html.j2
+     dest: "{{ sub_domain_dir }}/index.html"
+   when: navi_channel == 114
+
