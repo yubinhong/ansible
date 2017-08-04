@@ -1,0 +1,35 @@
+---
+ - name: Check Old Back Data
+   find:
+     paths: "{{ temp_dir }}"
+     file_type: directory
+     hidden: false
+     recurse: no
+     patterns: '2017*'
+     use_regex: True
+   register: old_data
+
+ - block:
+     - debug:  
+         msg: "Deleting Old Backup Data -----> {{ item.path }} "
+       with_items:
+         - "{{ old_data.files }}"
+       when: old_data.files != []
+     - file:
+         path: "{{ item.path }}"
+         state: absent
+       with_items:
+         - "{{ old_data.files }}"
+       when: old_data.files != []
+
+ - name: Backup Data
+   command: "innobackupex --defaults-file={{ mysql_conf }} --user=root  --socket={{ mysql_sock }}   {{ temp_dir }}"
+ 
+# - name: Transfer Data to Local
+#   synchronize:
+#     src: "{{ temp_dir }}/2017*"
+#     dest: "{{ temp_dir }}"
+#     mode: pull
+#     archive: yes
+#     compress: yes
+

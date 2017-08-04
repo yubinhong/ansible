@@ -1,0 +1,19 @@
+---
+ - name: Import secret yml
+   include_vars: "{{ item }}"
+   with_items:
+    - "secret.yml"
+ 
+ - name: Install mysql-python
+   yum:
+     name: MySQL-python
+     state: present
+
+ - name: Grant Privileges To Replication
+   mysql_user:
+     login_unix_socket: "{{ mysql_sock }}"
+     name: "{{ repli_user_name }}"
+     password: "{{ repli_pass }}"
+     host: "{{ repli_host }}"
+     priv:  "*.*:REPLICATION SLAVE"
+     state: present
