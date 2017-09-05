@@ -1,0 +1,47 @@
+---
+ - name: Check If Sqladvisor source code has been cloned
+   stat: path={{ sqladvisor_install_dir }}
+   register: sqladvisor_dir_result
+
+ - name: Git Clone Source Code
+   git:
+     repo: "{{ sqladvisor_git_url }}"
+     dest: "{{ sqladvisor_install_dir }}"
+     force: yes
+   when: not sqladvisor_dir_result.stat.exists
+ 
+ - name: Install Dependency Packages
+   yum:
+     name: "{{ item }}" 
+     state: latest
+   with_items:
+     - cmake
+     - libaio-devel
+     - libffi-devel
+     - glib2
+     - glib2-devel
+
+ - name: Link Dependencies
+   file:
+     src: "{{ dependency_src_dir }}"
+     dest: "{{ dependency_dest_dir }}"
+     state: link
+
+ - name: Build sqlparser
+   block:
+    - shell: cd "{{ sqladvisor_install_dir }}" && cmake ./ \
+        -DBUILD_CONFIG=mysql_release \
+        -DCMAKE_BUILD_TYPE=debug \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/sqlparser 
+    - shell: cd "{{ sqladvisor_install_dir }}" && make && make install
+
+ - name: Build sqladvisor
+   block:
+    - shell: cd "{{ sqladvisor_install_dir }}/sqladvisor" && cmake ./ \
+        -DCMAKE_BUILD_TYPE=debug
+    - shell: cd "{{ sqladvisor_install_dir }}/sqladvisor" && make
+
+ - name: Set Environment PATH
+   lineinfile:
+     dest: "/root/.bash_profile"
+     line: "export PATH={{ sqladvisor_install_dir }}/sqladvisor:$PATH"  

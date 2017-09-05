@@ -1,0 +1,5 @@
+---
+sqladvisor_git_url: "https://github.com/Meituan-Dianping/SQLAdvisor.git"
+sqladvisor_install_dir: "/usr/local/webserver/SQLadvisor"
+dependency_src_dir: "/usr/local/webserver/mysql/lib/libperconaserverclient_r.so.18"
+dependency_dest_dir: "/usr/lib64/libperconaserverclient_r.so"
