@@ -6,4 +6,3 @@ php6_package_url: "{{ package_url_prefix }}/php/{{ php6_version }}.centos6.{{ an
 php_user: www
 php_install_dir: /usr/local/webserver/php
 php_logs_dir: /data0/logs/php-fpm
-php_conf_url: "https://github.com/chenjianbin/php_conf.git"

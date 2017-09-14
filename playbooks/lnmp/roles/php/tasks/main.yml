@@ -18,14 +18,16 @@
 
  - block:
     - debug:
-       msg: Git PHP Conf
+       msg: Get PHP Conf
     - file: 
        path: "{{ php_install_dir }}/etc"
        state: absent
-    - git: 
+    - subversion: 
        repo: "{{ php_conf_url }}"
+       username: "{{ SVN_USER }}"
+       password: "{{ SVN_PASSWD }}"
        dest: "{{ php_install_dir }}/etc"
-       clone: yes
+       force: yes
 
  - name: Generate Logs Directory
    file:

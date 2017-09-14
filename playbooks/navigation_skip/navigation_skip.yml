@@ -1,4 +1,0 @@
----
- - hosts: add_navi
-   roles: 
-     - add_navi
