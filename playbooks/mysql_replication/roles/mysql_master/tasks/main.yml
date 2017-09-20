@@ -25,11 +25,11 @@
  - name: Backup Data
    command: "innobackupex --defaults-file={{ mysql_conf }} --user=root  --socket={{ mysql_sock }}   {{ temp_dir }}"
  
-# - name: Transfer Data to Local
-#   synchronize:
-#     src: "{{ temp_dir }}/2017*"
-#     dest: "{{ temp_dir }}"
-#     mode: pull
-#     archive: yes
-#     compress: yes
+ - name: Transfer Data to Local
+   synchronize:
+     src: "{{ temp_dir }}/2017*"
+     dest: "{{ temp_dir }}"
+     mode: pull
+     archive: yes
+     compress: yes
 
