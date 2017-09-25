@@ -40,10 +40,10 @@
     name: "pip"
     state: latest 
 
- - name: Update Kernel
-   yum:
-    name: "*"
-    state: latest 
+# - name: Update Kernel
+#   yum:
+#    name: "*"
+#    state: latest 
 
  - name: Reboot System
    command: init 6
