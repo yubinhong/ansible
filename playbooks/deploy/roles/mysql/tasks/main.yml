@@ -3,11 +3,17 @@
    include_vars: "{{ item }}"
    with_items:
     - "secret.yml"
+
+ - name: Check if mysql-python has been installed
+   shell: "rpm -qa|grep -i mysql-python"
+   register: result
+   ignore_errors: true
  
  - name: Install mysql-python
    yum:
      name: MySQL-python
      state: present
+   when: result.rc != 0
 
  - name: Create a new database
    mysql_db:

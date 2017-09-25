@@ -59,7 +59,7 @@
 
  - debug:
      msg: "look  {{ master_info }}"
- 
+
  - name: Init Slave
    mysql_replication:
      mode: resetslaveall

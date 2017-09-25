@@ -3,17 +3,14 @@
    include_vars: "{{ item }}"
    with_items:
     - "secret.yml"
- 
+
+ - name: Check if mysql-python has been installed
+   shell: "rpm -qa|grep -i mysql-python"
+   register: result
+   ignore_errors: true
+
  - name: Install mysql-python
    yum:
      name: MySQL-python
      state: present
-
- - name: Grant Privileges To Replication
-   mysql_user:
-     login_unix_socket: "{{ mysql_sock }}"
-     name: "{{ repli_user_name }}"
-     password: "{{ repli_pass }}"
-     host: "{{ repli_host }}"
-     priv:  "*.*:REPLICATION SLAVE"
-     state: present
+   when: result.rc != 0

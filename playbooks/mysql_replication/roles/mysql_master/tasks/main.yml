@@ -1,4 +1,13 @@
 ---
+ - name: Grant Privileges To Replication
+   mysql_user:
+     login_unix_socket: "{{ mysql_sock }}"
+     name: "{{ repli_user_name }}"
+     password: "{{ repli_pass }}"
+     host: "{{ repli_host }}"
+     priv:  "*.*:REPLICATION SLAVE"
+     state: present
+
  - name: Check Old Back Data
    find:
      paths: "{{ temp_dir }}"
@@ -25,11 +34,11 @@
  - name: Backup Data
    command: "innobackupex --defaults-file={{ mysql_conf }} --user=root  --socket={{ mysql_sock }}   {{ temp_dir }}"
  
-# - name: Transfer Data to Local
-#   synchronize:
-#     src: "{{ temp_dir }}/2017*"
-#     dest: "{{ temp_dir }}"
-#     mode: pull
-#     archive: yes
-#     compress: yes
+ - name: Transfer Data to Local
+   synchronize:
+     src: "{{ temp_dir }}/2017*"
+     dest: "{{ temp_dir }}"
+     mode: pull
+     archive: yes
+     compress: yes
 
