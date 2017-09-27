@@ -1,0 +1,14 @@
+---
+ - hosts: server
+   vars_files:
+     - vars/main.yml
+   tasks:
+     - name: Copy Nginx Conf 
+       template:
+         src: nginx.conf.j2
+         dest: "{{ nginx_dir }}/conf/vhosts/{{ main_domain }}.conf"
+       notify:
+         - Reload Nginx
+   handlers:
+     - name: Reload Nginx
+       command: "{{ nginx_dir }}/sbin/nginx -s reload"
