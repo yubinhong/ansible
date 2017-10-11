@@ -1,0 +1,34 @@
+---
+ - name: Create Nginx Backup Dir
+   file:
+     path: "/data0/backups/{{ inventory_hostname }}/nginx_conf"
+     state: directory
+   delegate_to: localhost
+
+ - name: Check If Nginx Conf Exists
+   stat: 
+     path: "{{ nginx_conf_dir }}"
+   register: result
+   ignore_errors: true
+
+ - name: Check If Nginx Conf Exists
+   stat:
+     path: "{{ nginx2_conf_dir }}"
+   register: result2
+   ignore_errors: true
+
+ - name: Backup Nginx Conf
+   synchronize:
+     src: "{{ nginx_conf_dir }}"
+     dest: "/data0/backups/{{ inventory_hostname }}/nginx_conf"
+     archive: yes
+     mode: pull
+   when: result.stat.exists
+
+ - name: Backup Nginx Conf
+   synchronize:
+     src: "{{ nginx2_conf_dir }}"
+     dest: "/data0/backups/{{ inventory_hostname }}/nginx_conf"
+     archive: yes
+     mode: pull
+   when: result2.stat.exists

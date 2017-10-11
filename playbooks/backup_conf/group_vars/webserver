@@ -1,0 +1,5 @@
+---
+nginx_conf_dir: "/usr/local/webserver/nginx/conf"
+php_conf_dir: "/usr/local/webserver/php/etc"
+mysql_conf_dir: "/data0/mysql/3306/my.cnf"
+nginx2_conf_dir: "/usr/local/nginx/conf"
