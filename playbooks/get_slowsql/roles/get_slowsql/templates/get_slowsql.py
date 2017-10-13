@@ -8,7 +8,7 @@ import sys
 IP="{{ ansible_all_ipv4_addresses.0 }}"
 FILE_PATH="/data0/mysql/3306/logs/mysql-slow.log"
 COUNT_FILE="/tmp/count.txt"
-API="https://oapi.dingtalk.com/robot/send?access_token=2ae59053f2340e19eb9adc1e00e8b25c9bdc25c8e3870abe9f7580b942f2139a"
+API="https://oapi.dingtalk.com/robot/send?access_token=a386af6de2cd615c0de7920659474707accb68ac558d0a54ed77ddbdc6db5411"
 
 
 def write_count(count):
@@ -53,7 +53,7 @@ def main():
     result=count-old_count
     if result !=0:
         write_count(count)
-        sql_text="## 服务器:%s\n\n" % (IP)
+        sql_text="## 服务器\n\n> %s\n\n" % (IP)
         flag=0
         for i in range(1,result+1):
             line=linecache.getline(FILE_PATH,old_count+i)
@@ -66,13 +66,14 @@ def main():
             elif "SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line:
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
-            elif flag==1:
-                if "# Time" in line:
-                    break
+            elif flag==1 and "# Time" not in line:
                 sql_text += "%s" % line.strip("\n")
+            elif flag==1 and "# Time" in line:
+                break
         sql_text += "\n\n<a href='http://sql.miguan.com/'>详情</a>"
 
-        print(send_to_dingding(sql_text))
+        status=send_to_dingding(sql_text)
+        return status
 
 
 if __name__=="__main__":
