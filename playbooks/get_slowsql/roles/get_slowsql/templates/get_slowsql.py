@@ -67,6 +67,8 @@ def main():
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
             elif flag==1:
+                if "# Time" in line:
+                    break
                 sql_text += "%s" % line.strip("\n")
         sql_text += "\n\n<a href='http://sql.miguan.com/'>详情</a>"
 
