@@ -1,0 +1,16 @@
+---
+ - name: create directory
+   file:
+    path: /data0/scripts/py
+    state: directory
+ - name: SET get_slowsql.py
+   template: 
+    src: get_slowsql.py
+    dest: /data0/scripts/py/get_slowsql.py
+ - name: make crontab
+   cron:
+    name: "get slow sql"
+    minute: "*/1"
+    job: "python /data0/scripts/py/get_slowsql.py"
+
+...
