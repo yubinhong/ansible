@@ -47,10 +47,10 @@ def main():
         sys.exit(1)
     count +=1
     old_count=get_count()
-    if old_count == 0:
+    result=count-old_count
+    if old_count == 0 or result < 0:
         write_count(count)
         sys.exit(0)
-    result=count-old_count
     if result !=0:
         write_count(count)
         sql_text="## 服务器\n\n> %s\n\n" % (IP)
