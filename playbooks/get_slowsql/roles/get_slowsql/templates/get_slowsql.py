@@ -5,7 +5,7 @@ import linecache
 import requests
 import json
 import sys
-IP="{{ ansible_all_ipv4_addresses.0 }}"
+IP="{{ inventory_hostname }}"
 FILE_PATH="/data0/mysql/3306/logs/mysql-slow.log"
 COUNT_FILE="/tmp/count.txt"
 API="https://oapi.dingtalk.com/robot/send?access_token=a386af6de2cd615c0de7920659474707accb68ac558d0a54ed77ddbdc6db5411"

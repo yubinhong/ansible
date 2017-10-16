@@ -10,7 +10,9 @@
  - name: make crontab
    cron:
     name: "get slow sql"
-    minute: "*/1"
+    minute: "30"
+    hour: "9-17/4"
+    weekday: "1-5"
     job: "python /data0/scripts/py/get_slowsql.py"
 
 ...
