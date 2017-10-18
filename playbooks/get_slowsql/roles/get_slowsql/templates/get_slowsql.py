@@ -57,13 +57,13 @@ def main():
         flag=0
         for i in range(1,result+1):
             line=linecache.getline(FILE_PATH,old_count+i)
-            if "Schema" in line:
+            if "Schema" in line and flag==0:
                 db=line.split()[2]
                 sql_text += "## 数据库\n\n> %s\n\n" % db
-            elif "Query_time" in line:
+            elif "Query_time" and flag==0 line:
                 time=line.split()[2]
                 sql_text += "## 耗时\n\n> %s秒\n\n" % time
-            elif "SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line:
+            elif "SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line and flag==0:
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
             elif flag==1 and "# Time" not in line:
