@@ -66,9 +66,9 @@ def main():
             elif "SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line and flag==0:
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
-            elif flag==1 and "# Time" not in line:
+            elif flag==1 and not line.startswith('#'):
                 sql_text += "%s" % line.strip("\n")
-            elif flag==1 and "# Time" in line:
+            elif flag==1 and line.startswith('#'):
                 break
         sql_text += "\n\n<a href='http://sql.miguan.com/'>详情</a>"
 
