@@ -1,0 +1,8 @@
+---
+ - hosts: domain4
+   gather_facts: false
+   tasks:
+     - name: template hao.335335.cc
+       template:
+         src: hao.335335.cc.index.html
+         dest: /home/wwwroot/335335.cc/hao/index.html

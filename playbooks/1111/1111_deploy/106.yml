@@ -1,0 +1,28 @@
+---
+ - hosts: domain1
+   gather_facts: false
+   tasks:
+  
+     - name: template hao.337337.cc
+       template:
+         src: index1.html.j2
+         dest: /home/wwwroot/337337.cc/hao/index.html
+         backup: yes
+
+     - name: template hao.sogo123.cc
+       template:
+         src: index1.html.j2
+         dest: /home/wwwroot/sogo123.cc/hao/index.html
+         backup: yes
+
+     - name: template www.337337.cc
+       template:
+         src: index3.html.j2
+         dest: /home/wwwroot/337337.cc/www/index.html
+         backup: yes
+
+     - name: template www.sogo123.cc
+       template:
+         src: index4.html.j2
+         dest: /home/wwwroot/sogo123.cc/www/index.html
+         backup: yes

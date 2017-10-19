@@ -1,0 +1,28 @@
+---
+ - hosts: domain2
+   gather_facts: false
+   tasks:
+     - name: template hao.z8q.cc
+       template:
+         src: hao.z8q.cc.index.html
+         dest: /home/wwwroot/z8q.cc/hao/index.html
+
+     - name: template hao5.z8q.cc
+       template:
+         src: hao5.z8q.cc.index.html
+         dest: /home/wwwroot/z8q.cc/hao5/index.html
+
+     - name: template hao.8m3.cc
+       template:
+         src: hao.8m3.cc.index.html
+         dest: /home/wwwroot/8m3.cc/hao/index.html
+
+     - name: template hao51.z6q.cc
+       template:
+         src: hao51.z6q.cc.index.html
+         dest: /home/wwwroot/z6q.cc/hao51/index.html
+
+     - name: template ie.8m3.cc
+       template:
+         src: ie.8m3.cc.index.html
+         dest: /home/wwwroot/8m3.cc/ie/index.html

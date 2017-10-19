@@ -1,0 +1,9 @@
+---
+ - hosts: domain5
+   gather_facts: false
+   tasks:
+
+     - name: fetch hao.221199.com
+       fetch:
+         src: /home/wwwroot/221199.com/hao/index.html
+         dest: /data2/221199.com/hao/index.html
