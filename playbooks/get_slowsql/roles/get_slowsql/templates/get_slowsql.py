@@ -63,7 +63,7 @@ def main():
             elif "Query_time" and flag==0 line:
                 time=line.split()[2]
                 sql_text += "## 耗时\n\n> %s秒\n\n" % time
-            elif "SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line and flag==0:
+            elif ("SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line) and flag==0:
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
             elif flag==1 and not line.startswith('#'):
