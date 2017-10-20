@@ -5,6 +5,6 @@
 
      - name: template hao.221199.com
        template:
-         src: index1.html.j2
+         src: hao.221199.com.j2
          dest: /home/wwwroot/221199.com/hao/index.html
          backup: yes
