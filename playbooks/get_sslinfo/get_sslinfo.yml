@@ -1,0 +1,6 @@
+---
+ - hosts: get_sslinfo
+   roles:
+    - get_sslinfo
+
+...
