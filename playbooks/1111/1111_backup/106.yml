@@ -1,0 +1,24 @@
+---
+ - hosts: domain1
+   gather_facts: false
+   tasks:
+  
+     - name: fetch hao.337337.cc
+       fetch:
+         src:  /home/wwwroot/337337.cc/hao/index.html
+         dest: /data2/337337.cc/hao/index.html
+
+     - name: fetch hao.sogo123.cc
+       fetch:
+         src: /home/wwwroot/sogo123.cc/hao/index.html
+         dest: /data2/sogo123.cc/hao/index.html
+
+     - name: fetch www.337337.cc
+       fetch:
+         src: /home/wwwroot/337337.cc/www/index.html
+         dest: /data2/337337.cc/www/index.html
+
+     - name: fetch www.sogo123.cc
+       fetch:
+         src: /home/wwwroot/sogo123.cc/www/index.html
+         dest: /data2/sogo123.cc/www/index.html

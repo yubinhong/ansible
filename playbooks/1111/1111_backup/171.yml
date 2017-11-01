@@ -1,0 +1,28 @@
+---
+ - hosts: domain2
+   gather_facts: false
+   tasks:
+     - name: fetch hao.z8q.cc
+       fetch:
+         src: /home/wwwroot/z8q.cc/hao/index.html
+         dest: /data2/z8q.cc/hao/index.html
+
+     - name: fetch hao5.z8q.cc
+       fetch:
+         src: /home/wwwroot/z8q.cc/hao5/index.html
+         dest: /data2/z8q.cc/hao5/index.html
+
+     - name: fetch hao.8m3.cc
+       fetch:
+         src: /home/wwwroot/8m3.cc/hao/index.html
+         dest: /data2/8m3.cc/hao/index.html
+
+     - name: fetch hao51.z6q.cc
+       fetch:
+         src: /home/wwwroot/z6q.cc/hao51/index.html
+         dest: /data2/z6q.cc/hao51/index.html
+
+     - name: fetch ie.8m3.cc
+       fetch:
+         src: /home/wwwroot/8m3.cc/ie/index.html
+         dest: /data2/8m3.cc/ie/index.html

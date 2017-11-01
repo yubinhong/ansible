@@ -1,0 +1,8 @@
+---
+ - hosts: domain5
+   gather_facts: false
+   tasks:
+     - name: template hao.221199.com
+       template:
+         src: hao.221199.com.index.html
+         dest: /home/wwwroot/221199.com/hao/index.html
