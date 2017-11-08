@@ -1,2 +1,3 @@
 ---
-temp_dir: /tmp
+build_dir: /tmp
+node_link_dir: /usr/local/webserver/node

@@ -2,11 +2,8 @@
  - hosts: node
    roles:
    - nodejs
+#   - npm_update
 
  - hosts: composer
    roles:
    - composer
-
- - hosts: npm_update 
-   roles:
-   - npm_update
