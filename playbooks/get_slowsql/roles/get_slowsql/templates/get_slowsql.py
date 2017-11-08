@@ -47,11 +47,11 @@ def main():
         sys.exit(1)
     count +=1
     old_count=get_count()
-    result=count-old_count
-    if old_count == 0 or result < 0:
+    result = count - old_count
+    if old_count == 0 or result <0:
         write_count(count)
         sys.exit(0)
-    if result !=0:
+    if result > 0:
         write_count(count)
         sql_text="## 服务器\n\n> %s\n\n" % (IP)
         flag=0
@@ -59,16 +59,18 @@ def main():
             line=linecache.getline(FILE_PATH,old_count+i)
             if "Schema" in line and flag==0:
                 db=line.split()[2]
+                if db=="Last_errno:":
+                    db=''
                 sql_text += "## 数据库\n\n> %s\n\n" % db
-            elif "Query_time" and flag==0 line:
+            elif "Query_time" in line and flag==0:
                 time=line.split()[2]
                 sql_text += "## 耗时\n\n> %s秒\n\n" % time
-            elif ("SELECT" in line or "UPDATE" in line or "INSERT" in line or "DELETE" in line) and flag==0:
+            elif "SELECT" in line or "UPDATE" in line or "update" in line or "INSERT" in line or "DELETE" in line and flag==0:
                 flag=1
                 sql_text += "## SQL\n\n> %s" % line.strip("\n")
             elif flag==1 and not line.startswith('#'):
                 sql_text += "%s" % line.strip("\n")
-            elif flag==1 and line.startswith('#'):
+            elif flag==1 and line.startswith('#') :
                 break
         sql_text += "\n\n<a href='http://sql.miguan.com/'>详情</a>"
 
@@ -78,4 +80,3 @@ def main():
 
 if __name__=="__main__":
     main()
-
