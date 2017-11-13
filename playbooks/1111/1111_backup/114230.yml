@@ -1,8 +1,0 @@
----
- - hosts: domain4
-   gather_facts: false
-   tasks:
-     - name: fetch hao.335335.cc
-       fetch:
-         src: /home/wwwroot/335335.cc/hao/index.html
-         dest: /data2/335335.cc/hao/index.html

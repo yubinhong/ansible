@@ -1,9 +1,0 @@
----
- - hosts: domain3
-   gather_facts: false
-   tasks:
-     - name: template 2345tm.lft2.com
-       template:
-         src: 2345tm.lft2.com.index.html
-         dest: /home/wwwroot/lft2.com/2345tm/index.html
-         backup: yes

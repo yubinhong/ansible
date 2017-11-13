@@ -1,8 +1,0 @@
----
- - hosts: domain3
-   gather_facts: false
-   tasks:
-     - name: fetch 2345tm.lft2.com
-       fetch:
-         src: /home/wwwroot/lft2.com/2345tm/index.html
-         dest: /data2/lft2.com/2345tm/index.html
