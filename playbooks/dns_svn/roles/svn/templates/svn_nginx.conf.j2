@@ -1,0 +1,12 @@
+server
+{
+        set $Site {{ svn_domain }};
+        listen 80;
+        server_name {{ svn_domain }} miguanvpn.f3322.net;
+
+        location / {
+		proxy_pass http://127.0.0.1:22222;
+		include setup/proxy/proxy.conf;
+        }
+	access_log /data0/logs/nginx/{{ svn_domain }}.access.log  main_product;
+}

@@ -1,0 +1,27 @@
+---
+ - name: Install DNS Packages
+   yum:
+     name: "{{ item }}"
+     state: latest
+   with_items:
+     - bind-chroot 
+     - bind
+ 
+ - name: Template The Main Conf
+   template:
+     src: named.conf.j2
+     dest: /etc/named.conf
+
+ - name: Template The subdomain Conf
+   copy:
+     src: "{{ item }}"
+     dest: "/var/named/{{ item }}"
+   with_items:
+     - "named.miguan.com"
+     - "named.info.com"
+
+ - name: Start Named Service
+   systemd:
+     name: named-chroot
+     state: started
+     enabled: yes

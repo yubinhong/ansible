@@ -1,0 +1,4 @@
+---
+ - name: reload nginx
+   command: "{{ nginx_basedir }}/sbin/nginx -s reload"
+...
