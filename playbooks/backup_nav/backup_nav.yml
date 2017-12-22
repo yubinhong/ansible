@@ -1,6 +1,4 @@
 ---
  - hosts: webserver
    roles:
-     - nginx_conf
-     - php_conf
-     - mysql_conf
+     - web_conf
