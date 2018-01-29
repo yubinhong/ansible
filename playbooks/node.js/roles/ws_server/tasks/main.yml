@@ -1,0 +1,20 @@
+---
+ - setup: filter=ansible_env
+ - block:
+   - name: git clone ws-server from repo
+     git:
+        repo: ssh://git@miguanvpn2.f3322.net:23334/ops/CrazyeyeClient.git
+        dest: /data0/web/ws-server
+        accept_hostkey: True
+
+   - name: add service to system
+     template:
+        src: ws-server.jinj2
+        dest: /etc/systemd/system/ws-server.service
+        owner: root
+        group: root
+        mode: 0644
+   - name: start ws-server
+     service:
+        name: ws-server
+        state: started
