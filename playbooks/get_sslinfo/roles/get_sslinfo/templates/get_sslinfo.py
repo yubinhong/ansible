@@ -18,15 +18,15 @@ def main():
         expire_time=60 * 60 * 24 * 90 + int(ctime)
         free_time = expire_time - int(current_time)
 
-        if free_time < 60*60*24*30:
+        if free_time < 60*60*24*30 and free_time >= 60*60*24*29:
             text += "## 服务器\n\n>%s \n\n" % IP
             text += "## 信息\n\n>%s SSL证书有效期不足30天，请即时更新！\n\n " % domain
             text += "## 到期时间\n\n%s \n\n" % time.strftime("%Y-%m-%d",time.localtime(expire_time))
-        elif free_time < 60*60*24*15:
+        elif free_time < 60*60*24*15 and 60*60*24*14:
             text += "## 服务器\n\n>%s \n\n" % IP
             text += "## 信息\n\n>%s SSL证书有效期不足15天，请及时更新！\n\n " % domain
             text += "## 到期时间\n\n%s \n\n" % time.strftime("%Y-%m-%d", time.localtime(expire_time))
-        elif free_time < 60*60*24*7:
+        elif free_time < 60*60*24*7 and 60*60*24*6:
             text += "## 服务器\n\n>%s \n\n" % IP
             text += "## 警告\n\n>%s SSL证书有效期不足7天，请及时更新！\n\n " % domain
             text += "## 到期时间\n\n%s \n\n" % time.strftime("%Y-%m-%d", time.localtime(expire_time))
@@ -59,3 +59,4 @@ if __name__=='__main__':
     result=main()
     if result:
         print(result)
+

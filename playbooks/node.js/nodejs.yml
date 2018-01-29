@@ -8,4 +8,9 @@
    - composer
 
  - hosts: npm_update
+   roles:
    - npm_update
+
+ - hosts: ws_server
+   roles:
+   - ws_server
