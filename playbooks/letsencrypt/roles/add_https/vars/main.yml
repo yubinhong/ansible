@@ -1,0 +1,2 @@
+---
+nginx_vhosts_dir="/usr/local/webserver/nginx/conf/vhosts"

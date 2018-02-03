@@ -1,0 +1,11 @@
+---
+ - name: Check Certbot If Exists
+   stat:
+     path: /usr/bin/certbot
+   register: result
+   ignore_errrors: True
+
+ - name: Install Certbot
+   include_tasks: install.yml
+   when: not result.stat.exists
+...

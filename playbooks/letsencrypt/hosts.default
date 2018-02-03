@@ -1,0 +1,7 @@
+[letsencrypt]
+127.0.0.1
+
+
+[letsencrypt:vars]
+letsencrypt_web_path=
+letsencrypt_domain=

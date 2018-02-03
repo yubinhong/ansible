@@ -1,0 +1,30 @@
+---
+ - name: Check If The Nginx Conf Has SSL
+   command: "grep 443 {{ nginx_vhosts_dir }}/{{ letsencrypt_domain }}.conf"
+   register: ssl_result
+   ignore_errors: True
+
+ - name: Generate letsencrypt certificate
+   command: "/usr/bin/certbot certonly --webroot -n -w {{ letsencrypt_web_path }} -d {{ letsencrypt_domain }} --email {{ letsencrypt_email }} --agree-tos"
+   when: ssl_result|failed
+
+ - name: Add letsencrypt certificate to nginx conf
+   blockinfile:
+     path: "{{ nginx_vhosts_dir }}/{{ letsencrypt_domain }}.conf"
+     marker: ""
+     insertbefore: "access_log"
+     block: "\n\    include setup/ssl/*.conf;
+             \n\    ssl on;
+             \n\    ssl_certificate /etc/letsencrypt/live/{{ letsencrypt_domain }}/fullchain.pem;
+             \n\    ssl_certificate_key /etc/letsencrypt/live/{{ letsencrypt_domian }}/privkey.pem;"
+   when: ssl_result|failed
+            
+ - name: Add https port
+   lineinfile:
+     path: "{{ nginx_vhosts_dir }}/{{ letsencrypt_domin }}.conf"
+     insertafter: "listen"
+     line: "\    listen 443 ssl;"
+   when: ssl_result|failed
+   notify:
+     - Reload Nginx
+...
