@@ -1,8 +1,10 @@
 ---
+
  - name: Template deny.conf
    copy:
      src: deny.conf
      dest: /usr/local/webserver/nginx/conf/setup/common/deny.conf
    notify: 
      - Reload Nginx
+
 ...

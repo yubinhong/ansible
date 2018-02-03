@@ -1,4 +1,5 @@
 ---
+
  - name: Check Renew Cron
    shell: "crontab -l|grep certbot"
    register: cron_result
@@ -11,4 +12,5 @@
      hour: "12"
      job: "certbot renew --quiet --renew-hook '/usr/local/webserver/nginx/sbin/nginx -s reload'"
    when: cron_result|failed
+
 ...
