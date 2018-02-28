@@ -36,7 +36,11 @@ def main():
         elif free_time > 60*60*24*89 and free_time < 60*60*24*90:
             text += "## 服务器\n\n>%s \n\n" % IP
             text += "## 提示\n\n>%s SSL证书已更新！\n\n " % domain
-            text += "## 注意\n\n>%s \n\n" % update_https(domain)
+            message=update_https(domain)
+            try:
+                text += "## 注意\n\n>%s \n\n" % message
+            except Exception as e:
+                text += "## 注意\n\n>%s \n\n" % message.encode('utf-8')
             text += "## 到期时间\n\n>%s \n\n" % time.strftime("%Y-%m-%d", time.localtime(expire_time))
     if text!="":
         result=send_to_dingding(text)
@@ -94,4 +98,3 @@ if __name__=='__main__':
     result=main()
     if result:
         print(result)
-
