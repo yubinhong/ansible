@@ -73,9 +73,9 @@ def main():
             elif flag==1 and line.startswith('#') :
                 break
         if len(sql_text) > 1024:
-		sql_text = sql_text[:950]
-		sql_text += "...完整语句请看慢日志"
-        sql_text += "\n\n<a href='http://sql.miguan.com/'>详情</a>"
+			sql_text = sql_text[:950]
+			sql_text += "...完整语句请看慢日志"
+        sql_text += "\n\n[详情](http://sql.miguan.com/)"
 
         status=send_to_dingding(sql_text)
         return status
