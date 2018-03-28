@@ -6,4 +6,4 @@ redis_package_url: "{{ package_url_prefix }}/{{ redis_package }}.tar.gz"
 scripts_url: "https://github.com/chenjianbin/scripts.git"
 redis_install_dir: /usr/local/webserver/redis
 redis_instance_dir: /data0/redis
-scripts_dir: /data0/scripts
+scripts_dir: /data0/script
