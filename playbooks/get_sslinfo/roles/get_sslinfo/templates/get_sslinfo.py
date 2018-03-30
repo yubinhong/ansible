@@ -49,9 +49,9 @@ def main():
 
 
 def update_https(domain):
-    cmd="grep -A 10 'webroot_map' /etc/letsencrypt/renewal/%s.conf |grep %s|awk '{print $1}'" % (domain,domain)
+    cmd="/usr/bin/certbot certificates 2> /dev/null|grep 'Certificate Name: %s' -A 1|grep Domains|cut -d ' ' -f 6-" % (domain,domain)
     result=commands.getoutput(cmd)
-    subdomain_list=result.split('\n')
+    subdomain_list=result.split()
     text=""
     for subdomain in subdomain_list:
         current_time=int(time.time())
