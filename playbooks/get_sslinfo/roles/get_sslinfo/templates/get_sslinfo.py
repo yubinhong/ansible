@@ -49,7 +49,7 @@ def main():
 
 
 def update_https(domain):
-    cmd="/usr/bin/certbot certificates 2> /dev/null|grep 'Certificate Name: %s' -A 1|grep Domains|cut -d ' ' -f 6-" % (domain,domain)
+    cmd="/usr/bin/certbot certificates 2> /dev/null|grep 'Certificate Name: %s' -A 1|grep Domains|cut -d ' ' -f 6-" % (domain)
     result=commands.getoutput(cmd)
     subdomain_list=result.split()
     text=""
