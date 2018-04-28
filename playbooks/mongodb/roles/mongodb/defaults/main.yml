@@ -6,7 +6,7 @@ mongodb_version: "3.6.4"
 
 mongodb_file: "mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz"
 mongodb_file_path: "{{ software_files_path }}/{{ mongodb_file }}"
-mongodb_file_url: "https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz"
+mongodb_file_url: "https://download-miguan-com.oss-cn-hangzhou.aliyuncs.com/Packages/mongodb/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz"
 
 mongodb_link_path: "{{ software_install_path }}/mongodb"
 #mongodb_port: 27017
