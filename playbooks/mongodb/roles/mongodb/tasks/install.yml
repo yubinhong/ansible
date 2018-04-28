@@ -11,7 +11,8 @@
   unarchive:
     src: "{{ mongodb_file_path }}"
     dest: "{{ software_install_path }}"
-    creates: "{{ software_install_path}}/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}"
+    creates: "{{ software_install_path }}/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}"
+    copy: no
 
 - name: Rename mongodb dir
   shell: "mv mongodb-linux-x86_64-rhel70-{{ mongodb_version }}   mongodb-{{ mongodb_version }}"
