@@ -34,4 +34,5 @@
     - {name: net.ipv4.tcp_max_orphans, value: 3276800}
     - {name: net.ipv4.ip_local_port_range, value: 10000 65000}
     - {name: vm.swappiness, value: 0}
+    - {name: net.ipv4.tcp_fin_timeout, value: 2}
 ...
