@@ -12,4 +12,10 @@
     key: "{{ item }}" 
    with_file: 
     - public_keys/ops
-...
+ - name: Add gitlab ssh-key
+   copy:
+    src: "id_rsa"
+    dest: "~/.ssh/id_rsa"
+    mode: "u=rw"
+    owner: "root"
+ ...
