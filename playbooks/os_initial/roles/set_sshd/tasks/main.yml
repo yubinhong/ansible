@@ -17,6 +17,6 @@
    copy:
     src: "id_rsa"
     dest: "~/.ssh/id_rsa"
-    mode: "u=rw"
+    mode: 0600
     owner: "root"
 ...
