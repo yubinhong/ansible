@@ -68,7 +68,7 @@
     - unzip
    when: "ansible_distribution == 'CentOS'"
 
- - name: Install Tools Software
+ - name: Install Tools Software for Ubuntu
     name: "{{ item }}"
     state: present
    with_items:
