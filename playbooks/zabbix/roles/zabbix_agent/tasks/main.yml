@@ -27,12 +27,22 @@
     state: present
    when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
 
- - name: Install Zabbix-agentd on Ubuntu
-   get_url:
-    url: {{ Zabbix_Agent_Package_for_ubuntu }}
-    dest: /tmp/zabbix-agent.deb
+ #- name: Download Zabbix-agentd package on Ubuntu
+ #  get_url:
+ #   url: {{ Zabbix_Agent_Package_for_ubuntu }}
+ #   dest: /tmp/zabbix-agent.deb
+ #  when: "ansible_distribution == 'Ubuntu'
 
-    
+ - name: Install depend on Ubuntu
+   apt:
+    name: libcurl3
+    update_cache: yes
+   when: "ansible_distribution == 'Ubuntu'"
+
+ - name: Install zabbix_agent package on Ubuntu from internet
+   apt:
+    deb: {{ Zabbix_Agent_Package_for_ubuntu }}
+   when: "ansible_distribution == 'Ubuntu'"
 
  - name: Copy Zabbix_agent.conf
    template: 
@@ -46,19 +56,18 @@
 
  - name: Create Zabbix Monitor Logs Directory
    file:
-    path: "/data0/logs/zabbix_agent"
+    path: "/data/logs/zabbix_agent"
     owner: zabbix
     group: zabbix
     state: directory
     recurse: yes
 
  - name: Checkout Zabbix_agentd.d
-   subversion:
-    repo: "{{ SVN_ADDR }}"
-    username: "{{ SVN_USER }}"
-    password: "{{ SVN_PASSWD }}"
+   git:
+    repo: "{{ GIT_ADDR }}"
     dest: /etc/zabbix/zabbix_agentd.d
-    force: yes
+    accept_hostkey: yes
+    key_file: /data/var/key/git.key
    notify:
     - Restart Zabbix-agentd
 ...
