@@ -27,6 +27,13 @@
     state: present
    when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
 
+ - name: Install Zabbix-agentd on Ubuntu
+   get_url:
+    url: {{ Zabbix_Agent_Package_for_ubuntu }}
+    dest: /tmp/zabbix-agent.deb
+
+    
+
  - name: Copy Zabbix_agent.conf
    template: 
     src: "zabbix_agentd.conf.{{ Mode }}.j2" 
