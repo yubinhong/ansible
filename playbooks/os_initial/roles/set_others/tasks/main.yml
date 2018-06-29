@@ -1,14 +1,10 @@
 ---
- - name: Close Selinux
-   selinux: 
-    state: disabled
-
  - name: Close Firewall On Centos 6
    service: 
     name: iptables
     state: stopped
     enabled: no
-   when: ansible_distribution_major_version == "6"
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
    ignore_errors: True
 
  - name: Close Firewall On Centos 7
@@ -16,7 +12,7 @@
     name: firewalld
     state: stopped
     enabled: no
-   when: ansible_distribution_major_version == "7"
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'"
    ignore_errors: True
 
  - name: Chmod /etc/rc.d/rc.local
@@ -45,7 +41,4 @@
 #    name: "*"
 #    state: latest 
 
- - name: Reboot System
-   command: init 6
-   ignore_errors: True
 
