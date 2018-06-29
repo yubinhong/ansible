@@ -4,9 +4,8 @@ timezone: "Asia/Shanghai"
 
 #系统用户
 os_users: {mysql: {id: 300, comment: "Mysql Server"}, www: {id: 302, comment: "Web Server"}}
-
+common_user: {onecafe: {password: "onecafe123"}}
 #DNS
 nameserver:
- - 114.114.114.114
- - 223.5.5.5
+ - 8.8.8.8
 ...

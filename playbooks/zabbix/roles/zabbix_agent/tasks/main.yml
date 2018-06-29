@@ -5,8 +5,8 @@
     - "secret.yml"
 
  - name: install dependent packages
-   apt_rpm:
-    name: unixODBC 
+   yum:
+    name: unixODBC
     state: present
    when: "ansible_distribution == 'CentOS'"
 

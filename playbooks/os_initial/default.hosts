@@ -1,6 +1,9 @@
-[aliyun]
-[IDC]
+[centos]
+[ubuntu]
 
-[all:vars]
-#ansible_ssh_pass="xxxxx"
+[centos:vars]
+ansible_ssh_pass="xxxxx"
+[ubuntu:vars]
+ansible_ssh_user="onecafe"
+ansible_sudo_pass="onecafe123"
 

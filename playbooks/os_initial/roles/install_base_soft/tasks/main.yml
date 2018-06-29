@@ -4,7 +4,8 @@
    yum: 
     name: "{{ item }}"
     state: present
-   with_items: 
+   with_items:
+    - epel-release
     - ntp 
     - vim-enhanced
     - gcc
@@ -28,14 +29,32 @@
    delay: 1
 #   until: result.rc ==  1 or result.rc == 0
    until: result|succeeded
- - name: Install Tools Software
-   yum: 
+   when: "ansible_distribution == 'CentOS'"
+
+- name: Install Basic Software for Ubuntu
+   yum:
     name: "{{ item }}"
     state: present
-   with_items: 
+   with_items:
+    - ntp
+    - automake
+    - autoconf
+    - smartmontools
+    - tcl
+    - deltarpm
+   register: result
+   retries: 3
+   delay: 1
+#   until: result.rc ==  1 or result.rc == 0
+   until: result|succeeded
+   when: "ansible_distribution == 'Ubuntu'"
+
+ - name: Install Tools Software
+    name: "{{ item }}"
+    state: present
+   with_items:
     - net-tools
     - rsync
-    - subversion
     - git
     - screen
     - numactl
@@ -47,6 +66,26 @@
     - tree
     - zip
     - unzip
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: Install Tools Software
+    name: "{{ item }}"
+    state: present
+   with_items:
+    - net-tools
+    - rsync
+    - git
+    - screen
+    - numactl
+    - psmisc
+    - lrzsz
+    - wget
+    - bzip2
+    - tree
+    - zip
+    - unzip
+   when: "ansible_distribution == 'Ubuntu'"
+
 
  - name: Install Debug Software
    yum: 
@@ -63,6 +102,21 @@
     - lsof
     - tcpdump
     - mtr
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: Install Debug Software for Ubuntu
+   apt:
+    name: "{{ item }}"
+    state: present
+   with_items:
+    - iptraf
+    - nload
+    - iftop
+    - iotop
+    - dstat
+    - sysstat
+    - mtr
+   when: "ansible_distribution == 'Ubuntu'"
 
  - name: Install Python Software
    yum: 
@@ -71,16 +125,15 @@
    with_items: 
     - python-simplejson
     - python-httplib2
-    - python34
-    - python34-devel
     - python-devel
     - libselinux-python
+   when: "ansible_distribution == 'CentOS'"
 
  - name: Install Python Software On Centos 6
    yum: 
     name: "{{ item }}"
     state: present
-   when: ansible_distribution_major_version == '6'
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
    with_items: 
     - python-pip
 
@@ -88,10 +141,9 @@
    yum: 
     name: "{{ item }}"
     state: present
-   when: ansible_distribution_major_version == '7'
+   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'"
    with_items: 
     - python2-pip
-    - python34-pip
 
 
  - name: Install Perl Software
@@ -104,4 +156,6 @@
     - perl-Config-Tiny
     - perl-ExtUtils-MakeMaker
     - perl-CPAN
+   when: "ansible_distribution == 'CentOS'"
+
 ...

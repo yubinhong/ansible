@@ -1,16 +1,21 @@
 ---
- - hosts: IDC
-   roles:
-    - role: set_nameserver
-
- - hosts: all
+ - hosts: centos
    roles:
     - role: set_sysctl
-    - role: set_repo
     - role: install_base_soft
-    - role: set_time
     - role: set_sshd
     - role: add_users
     - role: set_limits
     - role: set_others
+    - role: set_nameserver
+
+ - hosts: ubuntu
+   become: yes
+    - role: set_sysctl
+    - role: install_base_soft
+    - role: set_sshd
+    - role: add_users
+    - role: set_limits
+    - role: set_others
+    - role: set_nameserver
 ...
