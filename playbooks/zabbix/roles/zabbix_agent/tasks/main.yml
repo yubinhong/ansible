@@ -15,7 +15,7 @@
    pip:
      name: redis
      state: latest
-     executable: pip3.4
+     executable: pip
 
  - name: Install Zabbix-agentd On CentOS 7
    yum: 
