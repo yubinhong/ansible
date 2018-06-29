@@ -41,7 +41,7 @@
 
  - name: Install zabbix_agent package on Ubuntu from internet
    apt:
-    deb: {{ Zabbix_Agent_Package_for_ubuntu }}
+    deb: "{{ Zabbix_Agent_Package_for_ubuntu }}"
    when: "ansible_distribution == 'Ubuntu'"
 
  - name: Copy Zabbix_agent.conf
