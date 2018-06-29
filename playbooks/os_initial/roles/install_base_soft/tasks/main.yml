@@ -32,7 +32,7 @@
    when: "ansible_distribution == 'CentOS'"
 
  - name: Install Basic Software for Ubuntu
-   yum:
+   apt:
     name: "{{ item }}"
     state: present
    with_items:
@@ -50,6 +50,7 @@
    when: "ansible_distribution == 'Ubuntu'"
 
  - name: Install Tools Software
+   yum:
     name: "{{ item }}"
     state: present
    with_items:
@@ -69,6 +70,7 @@
    when: "ansible_distribution == 'CentOS'"
 
  - name: Install Tools Software for Ubuntu
+   apt:
     name: "{{ item }}"
     state: present
    with_items:
