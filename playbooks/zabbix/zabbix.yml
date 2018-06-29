@@ -1,5 +1,6 @@
 ---
  - hosts: all
+   sudo: yes
    roles:
     - role: zabbix_agent
 # - hosts: zabbix_agent
