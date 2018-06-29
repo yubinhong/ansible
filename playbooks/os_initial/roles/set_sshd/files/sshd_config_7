@@ -147,6 +147,6 @@ Subsystem	sftp	/usr/libexec/openssh/sftp-server
 #	ForceCommand cvs server
 UseDNS no
 AddressFamily inet
-PermitRootLogin yes
+PermitRootLogin without-password
 SyslogFacility AUTHPRIV
-PasswordAuthentication no
+PasswordAuthentication yes
