@@ -1,3 +1,7 @@
-[aliyun]
-113.107.42.110
-[shouduzaixian]
+[wbhost]
+
+[all:vars]
+ansible_ssh_user=onecafe
+ansible_sudo_pass=onecafe123
+sudo=yes
+
