@@ -31,7 +31,7 @@
    until: result|succeeded
    when: "ansible_distribution == 'CentOS'"
 
-- name: Install Basic Software for Ubuntu
+ - name: Install Basic Software for Ubuntu
    yum:
     name: "{{ item }}"
     state: present

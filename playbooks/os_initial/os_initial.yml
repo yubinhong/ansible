@@ -11,6 +11,7 @@
 
  - hosts: ubuntu
    become: yes
+   roles:
     - role: set_sysctl
     - role: install_base_soft
     - role: set_sshd
