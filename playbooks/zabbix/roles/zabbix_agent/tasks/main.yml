@@ -5,9 +5,10 @@
     - "secret.yml"
 
  - name: install dependent packages
-   yum: 
+   apt_rpm:
     name: unixODBC 
     state: present
+
 
  - name: install redis module
    pip:
