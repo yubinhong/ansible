@@ -144,7 +144,7 @@ ServerActive={{ Zabbix_Server_IP }}
 # Default:
 # Hostname=
 
-Hostname={{ inventory_hostname }}
+Hostname={{ host_name }}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -175,7 +175,7 @@ Hostname={{ inventory_hostname }}
 # Mandatory: no
 # Default:
 # HostMetadataItem=
-HostMetadataItem={{ host_name }}
+HostMetadataItem=system.uname
 
 ### Option: RefreshActiveChecks
 #	How often list of active checks is refreshed, in seconds.
