@@ -20,6 +20,7 @@
     path: '/etc/rc.d/rc.local'
     mode: "u+rwx"
     state: file
+   when: "ansible_distribution == 'CentOS'"
 
  - block: 
     - debug:
