@@ -2,7 +2,8 @@
 [ubuntu]
 
 [centos:vars]
-ansible_ssh_pass="xxxxx"
+ansible_ssh_user="root"
+ansible_ssh_pass="onecafe123"
 [ubuntu:vars]
 ansible_ssh_user="onecafe"
 ansible_sudo_pass="onecafe123"
