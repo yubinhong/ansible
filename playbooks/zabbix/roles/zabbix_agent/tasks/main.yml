@@ -64,6 +64,12 @@
     state: directory
     recurse: yes
 
+ - name: Copy git key to remote
+   copy:
+     src: /data/var/key/git.key
+     dest: /tmp/git.key
+     mode: 0600
+
  - name: Checkout Zabbix_agentd.d
    git:
     repo: "{{ GIT_ADDR }}"
@@ -72,4 +78,9 @@
     key_file: /data/var/key/git.key
    notify:
     - Restart Zabbix-agentd
+
+ - name: Delete git key
+   file:
+     path: "/tmp/git.key"
+     state: absent
 ...
