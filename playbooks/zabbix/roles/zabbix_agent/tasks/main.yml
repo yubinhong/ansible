@@ -8,6 +8,7 @@
    apt_rpm:
     name: unixODBC 
     state: present
+   when: "ansible_distribution == 'CentOS'"
 
 
  - name: install redis module
