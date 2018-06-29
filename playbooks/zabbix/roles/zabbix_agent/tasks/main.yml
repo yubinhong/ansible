@@ -75,7 +75,7 @@
     repo: "{{ GIT_ADDR }}"
     dest: /etc/zabbix/zabbix_agentd.d
     accept_hostkey: yes
-    key_file: /data/var/key/git.key
+    key_file: /tmp/git.key
    notify:
     - Restart Zabbix-agentd
 
