@@ -2,10 +2,17 @@
 [ubuntu]
 
 [centos:vars]
+#是否使用sudo
+is_sudo=no
+#远程登陆用户
 ansible_ssh_user="centos"
+#远程登陆密码
 ansible_ssh_pass="onecafe123"
+#sudo密码
 ansible_sudo_pass="onecafe123"
 [ubuntu:vars]
+#是否使用sudo
+is_sudo=yes
 ansible_ssh_user="ubuntu"
 ansible_ssh_pass="onecafe123"
 ansible_sudo_pass="onecafe123"

@@ -1,6 +1,6 @@
 ---
  - hosts: centos
-   become: yes
+   become: "{{ is_sudo }}"
    roles:
     - role: set_sysctl
     - role: install_base_soft
