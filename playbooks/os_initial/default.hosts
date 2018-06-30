@@ -10,8 +10,10 @@ ansible_ssh_user="centos"
 ansible_ssh_pass="onecafe123"
 #become密码
 ansible_become_pass="onecafe123"
+#zabbix host_name
+host_name='test1-node'
 [ubuntu:vars]
 ansible_ssh_user="ubuntu"
 ansible_ssh_pass="onecafe123"
 ansible_become_pass="onecafe123"
-
+host_name='test1-admin'
