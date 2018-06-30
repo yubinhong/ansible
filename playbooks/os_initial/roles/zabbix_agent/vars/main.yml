@@ -1,0 +1,4 @@
+---
+Mode: "active"
+Zabbix_Agent_Package: "http://mirrors.aliyun.com/zabbix/zabbix/3.4/rhel/{{ ansible_distribution_major_version }}/{{ ansible_machine }}/zabbix-agent-3.4.9-1.el{{ ansible_distribution_major_version }}.{{ ansible_machine }}.rpm"
+Zabbix_Agent_Package_for_ubuntu: "http://mirrors.aliyun.com/zabbix/zabbix/3.4/ubuntu/pool/main/z/zabbix/zabbix-agent_3.4.9-1+{{ ansible_distribution_release }}_amd64.deb"

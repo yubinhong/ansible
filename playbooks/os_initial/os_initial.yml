@@ -8,6 +8,7 @@
     - role: set_sshd
     - role: add_users
     - role: set_limits
+    - role: zabbix_agent
     - role: set_others
 
  - hosts: ubuntu
@@ -18,5 +19,6 @@
     - role: set_sshd
     - role: add_users
     - role: set_limits
+    - role: zabbix_agent
     - role: set_others
 ...
