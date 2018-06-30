@@ -10,6 +10,8 @@ ansible_ssh_user="centos"
 ansible_ssh_pass="onecafe123"
 #sudo密码
 ansible_sudo_pass="onecafe123"
+#su密码
+ansible_su_pass="onecafe123"
 
 [ubuntu:vars]
 ansible_ssh_user="ubuntu"
