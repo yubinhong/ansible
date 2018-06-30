@@ -1,5 +1,6 @@
 ---
  - hosts: centos
+   become: yes
    roles:
     - role: set_sysctl
     - role: install_base_soft
@@ -7,7 +8,6 @@
     - role: add_users
     - role: set_limits
     - role: set_others
-    - role: set_nameserver
 
  - hosts: ubuntu
    become: yes
@@ -18,5 +18,4 @@
     - role: add_users
     - role: set_limits
     - role: set_others
-    - role: set_nameserver
 ...
