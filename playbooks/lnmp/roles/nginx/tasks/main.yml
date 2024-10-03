@@ -1,57 +1,87 @@
 ---
- - name: Import Secret Vars
-   include_vars: "{{ item }}"
-   with_items:
-    - "secret.yml"
-
  - name: Install Nginx
    yum:
     name: "{{ nginx_package_url }}"
     state: present
- 
- - block:
-    - debug:
-       msg: Get Nginx Conf
-    - file: 
-       path: "{{ nginx_install_dir }}/conf"
-       state: absent
-    - subversion:
-       repo: "{{ nginx_conf_url }}"
-       username: "{{ SVN_USER }}"
-       password: "{{ SVN_PASSWD }}"
-       dest: "{{ nginx_install_dir }}/conf"
-       force: yes
-    - copy:
-       src: default.htpasswd
-       dest: "{{ nginx_install_dir }}/conf/setup/auth/htpasswd/"
+   when: "ansible_distribution == 'CentOS'"
 
- - name: Link Nginx Directory
-   file:
-    src: "{{ nginx_install_dir }}"
-    path: "{{ nginx_link_dir }}"
-    state: link
+ - name: Install Nginx on Ubuntu
+   apt:
+    deb: "{{ item }}"
+   with_items:
+     - "{{ Nginx_Package_for_ubuntu }}"
+   when: "ansible_distribution == 'Ubuntu'"
+
+ - name: Install depend on Ubuntu
+   apt:
+     name: ['zlib1g-dev', 'libgd-dev', 'libgeoip-dev']
+     update_cache: yes
+   when: "ansible_distribution == 'Ubuntu'"
 
  - name: Start Daemon When System Boot
    lineinfile:
-    dest: /etc/rc.d/rc.local
-    line: "{{ nginx_link_dir }}/sbin/nginx"
+    dest: /etc/rc.local
+    create: yes
+    line: "{{ nginx_install_dir }}/sbin/nginx"
 
  - name: Create Logs Dir
    file:
-    path: "{{ nginx_logs_dir }}" 
+    path: "{{ item }}"
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}"
     recurse: yes
+    mode: 0755
     state: directory
+   with_items:
+     - "{{ nginx_logs_dir }}"
+     - "{{ nginx_install_dir }}/logs"
 
  - name: Set Regular Clean Nginx Logs
    template: 
     src: nginx.logrotate
     dest: /etc/logrotate.d/nginx
 
+ - name: crontab to logrotate log
+   cron:
+     name: nginx log to logrotate
+     minute: "59"
+     hour: "23"
+     job: "sudo /usr/sbin/logrotate -f /etc/logrotate.d/nginx"
+     user: "{{ ansible_ssh_user }}"
+
+ - name: Set nginx.conf to nginx config dir
+   copy:
+     src: nginx.conf
+     dest: "{{ nginx_install_dir }}/conf"
+
+ - name: Copy common conf to nginx config dir
+   copy:
+     src: "common"
+     dest: "{{ nginx_install_dir }}/conf"
+
+ - name: Ceate vhost vssl dir
+   file:
+     path: "{{ nginx_install_dir }}/conf/{{ item }}"
+     owner: root
+     group: root
+     recurse: yes
+     state: directory
+   with_items:
+     - "vssl"
+     - "vhost"
+
+ - name: Set defualt ssl pem and key
+   copy:
+     src: "{{ item }}"
+     dest: "{{ nginx_install_dir }}/conf/vssl"
+   with_items:
+     - "server.crt"
+     - "server.key"
+
+
  - name: Set Environment PATH 
    lineinfile: 
-    dest: "/root/.bash_profile"
-    line: "export PATH={{ nginx_link_dir }}/sbin:$PATH"
+    dest: "/etc/profile"
+    line: "export PATH={{ nginx_install_dir }}/sbin:$PATH"
 
 ...

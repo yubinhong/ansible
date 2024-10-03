@@ -1,8 +1,0 @@
----
-- name: Check Node If Exists
-  stat:
-    path: "{{ node_link_dir }}"
-  register: node_link_result 
-
-- include: install.yml
-  when: not node_link_result.stat.exists

@@ -1,0 +1,46 @@
+---
+ - name: download eth
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ eth_url }}"
+
+ #- name: install supervisor
+ #  apt:
+ #   name: supervisor
+ #   update_cache: yes
+
+ - name: create directory /data
+   file:
+    path: /data/logs/geth
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+
+ - name: unarchive eth
+   unarchive:
+    src: "{{ tmp_dir }}/{{ eth_package }}.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    list_files: no
+
+ - name: create eth link
+   file:
+    src: "{{ software_path }}/{{ eth_package }}"
+    dest: "{{ software_path }}/geth"
+    state: link
+
+ - name: copy ethnode.service /etc/systemd/system
+   template:
+    src: ethnode.service
+    dest: /etc/systemd/system/ethnode.service
+
+ - name: sleep
+   shell: sleep 5
+   notify:
+    - Start ethnode
+
+
+
+

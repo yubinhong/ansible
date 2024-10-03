@@ -1,2 +1,4 @@
 [redis]
 127.0.0.1
+[all:vars]
+redis_passwd=""

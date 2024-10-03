@@ -6,6 +6,7 @@
     state: present 
     system: yes
    with_dict: "{{os_users}}"
+   ignore_errors: True
 
  - name: Add Os Users
    user: 
@@ -18,5 +19,32 @@
     state: present 
     system: yes
    with_dict: "{{ os_users }}"
+   ignore_errors: True
+
+ - name: Add ops Group
+   group:
+     name: "ops"
+     gid: "1001"
+     state: present
+     system: no
+   ignore_errors: True
+
+ - name: Add ops User
+   user:
+     name: "ops"
+     group: "ops"
+     uid: "1001"
+     createhome: yes
+     shell: /bin/bash
+     state: present
+     system: no
+   ignore_errors: True
+
+ - name: Add sudo permission to ops User
+   lineinfile:
+     path: /etc/sudoers
+     state: present
+     line: 'ops ALL=(ALL) NOPASSWD: ALL'
+
 
 ...

@@ -1,6 +1,0 @@
----
- - hosts: get_slowsql
-   roles:
-    - get_slowsql
-
-...

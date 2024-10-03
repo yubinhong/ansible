@@ -1,0 +1,3 @@
+mcrypt_version: 1.0.1
+mcrypt_package_url: "https://qa.static.fortop.site/mcrypt-{{ mcrypt_version }}.tgz"
+php_install_dir: /usr/local/web/php

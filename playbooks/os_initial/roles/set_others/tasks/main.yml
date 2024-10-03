@@ -1,11 +1,4 @@
 ---
- - name: Close Firewall On Centos 6
-   service: 
-    name: iptables
-    state: stopped
-    enabled: no
-   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
-   ignore_errors: True
 
  - name: Close Firewall On Centos 7
    service: 
@@ -22,24 +15,61 @@
     state: file
    when: "ansible_distribution == 'CentOS'"
 
- - block: 
-    - debug:
-       msg: "Change PYPI Source"
-    - file:
-       path: "~/.pip"
-       state: directory
-    - copy:
-       src: "pip.conf"
-       dest: "~/.pip/pip.conf"
 
- - name: Update Pip
-   pip:
-    name: "pip"
-    state: latest 
+ - name: Create directory /data/logs
+   file:
+    path: "{{ item }}"
+    state: directory
+    owner: "ops"
+    group: "ops"
+    mode: 0755
+   with_items:
+     - "/data/logs/engine"
+     - "/data/logs/wallet"
+     - "/data/logs/user"
+     - "/data/logs/robot"
+     - "/data/logs/gateway"
+     - "/data/logs/admin"
 
-# - name: Update Kernel
-#   yum:
-#    name: "*"
-#    state: latest 
+ - name: Create directory /data/logs/nginx
+   file:
+    path: "{{ item }}"
+    state: directory
+    owner: "www"
+    group: "www"
+    mode: 0755
+   with_items:
+     - "/data/logs/nginx"
+     - "/data/logs/php"
 
 
+ - name: Run restore context to reload selinux on Centos
+   shell: restorecon -R /etc
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: Change nproc from 4096 to 65535
+   replace:
+     path: /etc/security/limits.d/20-nproc.conf
+     regexp: '4096'
+     replace: '65535'
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: Stop and disable service postfix
+   service:
+     name: postfix
+     state: stopped
+     enabled: false
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: Start and enable supervisord
+   service:
+     name: supervisord
+     state: started
+     enabled: true
+   when: "ansible_distribution == 'CentOS'"
+
+
+
+
+
+...

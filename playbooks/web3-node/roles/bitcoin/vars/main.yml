@@ -1,0 +1,4 @@
+software_path: "/data/"
+bitcoin_package: "bitcoin-0.20.1"
+tmp_dir: "/tmp"
+bitcoin_url: "https://bitcoincore.org/bin/bitcoin-core-0.20.1/{{ bitcoin_package }}-x86_64-linux-gnu.tar.gz"

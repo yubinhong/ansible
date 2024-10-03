@@ -1,0 +1,46 @@
+---
+ - name: create cron dir
+   file:
+    state: directory
+    path: /data/cron
+    recurse: yes
+    owner: "{{ ansible_ssh_user }}"
+
+ - name: install pip for centos
+   yum:
+     name: python2-pip
+   when: "ansible_distribution == 'CentOS'"
+   ignore_errors: True
+
+ - name: install pip for ubuntu
+   apt:
+     name: python-pip
+   when: "ansible_distribution == 'Ubuntu'"
+   ignore_errors: True
+
+ - name: install requests module
+   pip:
+     name: requests
+   ignore_errors: True
+
+ - name: copy alert_login.py to /data/cron on Centos
+   template:
+     src: "login_alert.py"
+     dest: "/data/cron/login_alert.py"
+     owner: "{{ ansible_ssh_user }}"
+   when: "ansible_distribution == 'CentOS'"
+
+ - name: copy alert_login_ubuntu.py to /data/cron on Ubuntu
+   template:
+     src: "login_alert_ubuntu.py"
+     dest: "/data/cron/login_alert.py"
+     owner: "{{ ansible_ssh_user }}"
+   when: "ansible_distribution == 'Ubuntu'"
+
+ - name: make cron for login alert
+   cron:
+    name: "login alert"
+    job: "python /data/cron/login_alert.py"
+    state: present
+
+

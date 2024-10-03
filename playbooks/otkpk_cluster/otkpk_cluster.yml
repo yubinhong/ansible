@@ -1,9 +1,0 @@
----
- - hosts: app
-   roles:
-    - app_cluster
-
-# - hosts: db
-#   roles:
-#    - db_cluster
-...

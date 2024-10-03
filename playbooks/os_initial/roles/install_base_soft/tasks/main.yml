@@ -2,162 +2,68 @@
 #安装基础软件,如果失败了,重试3次,每次间隔1秒.
  - name: Install Basic Software
    yum: 
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - epel-release
-    - ntp 
-    - vim-enhanced
-    - gcc
-    - gcc-c++
-    - make
-    - automake
-    - autoconf
-    - glibc
-    - glibc-devel
-    - glib2
-    - glib2-devel
-    - irqbalance
-    - microcode_ctl
-    - smartmontools
-    - tcl
-    - libffi-devel
-    - deltarpm
-    - bash-completion
+    name: ['epel-release', 'ntp', 'vim-enhanced', 'gcc', 'gcc-c++', 'make', 'automake', 'autoconf', 'glibc', 'glibc-devel', 'glib2', 'glib2-devel', 'irqbalance', 'microcode_ctl', 'smartmontools', 'tcl', 'libffi-devel', 'deltarpm', 'bash-completion']
+    state: latest
    register: result
    retries: 3
    delay: 1
-#   until: result.rc ==  1 or result.rc == 0
-   until: result|succeeded
+   until: result is succeeded
    when: "ansible_distribution == 'CentOS'"
 
  - name: Install Basic Software for Ubuntu
    apt:
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - ntp
-    - automake
-    - autoconf
-    - smartmontools
-    - tcl
-    - deltarpm
+    name: ['ntp', 'automake', 'autoconf', 'smartmontools', 'tcl', 'supervisor']
+    state: latest
+    update_cache: yes
    register: result
    retries: 3
    delay: 1
-#   until: result.rc ==  1 or result.rc == 0
-   until: result|succeeded
+   until: result is succeeded
    when: "ansible_distribution == 'Ubuntu'"
 
  - name: Install Tools Software
    yum:
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - net-tools
-    - rsync
-    - git
-    - screen
-    - numactl
-    - psmisc
-    - lrzsz
-    - wget
-    - bzip2
-    - httpd-tools
-    - tree
-    - zip
-    - unzip
+    name: ['net-tools', 'rsync', 'git', 'screen', 'numactl', 'psmisc', 'lrzsz', 'wget', 'bzip2', 'httpd-tools', 'tree', 'zip', 'unzip', 'supervisor']
+    state: latest
    when: "ansible_distribution == 'CentOS'"
 
  - name: Install Tools Software for Ubuntu
    apt:
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - net-tools
-    - rsync
-    - git
-    - screen
-    - numactl
-    - psmisc
-    - lrzsz
-    - wget
-    - bzip2
-    - tree
-    - zip
-    - unzip
+    name: ['net-tools', 'rsync', 'git', 'screen', 'numactl', 'psmisc', 'lrzsz', 'wget', 'bzip2', 'tree', 'zip', 'unzip']
+    state: latest
    when: "ansible_distribution == 'Ubuntu'"
 
 
  - name: Install Debug Software
-   yum: 
-    name: "{{ item }}" 
-    state: present
-   with_items: 
-    - iptraf
-    - nload
-    - iftop
-    - iotop
-    - dstat
-    - strace
-    - sysstat
-    - lsof
-    - tcpdump
-    - mtr
+   yum:
+    name: ['iptraf', 'nload', 'iftop', 'iotop', 'dstat', 'strace', 'sysstat', 'lsof', 'mtr', 'tcpdump']
+    state: latest
    when: "ansible_distribution == 'CentOS'"
 
  - name: Install Debug Software for Ubuntu
    apt:
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - iptraf
-    - nload
-    - iftop
-    - iotop
-    - dstat
-    - sysstat
-    - mtr
+    name: ['iptraf', 'nload', 'iftop', 'iotop', 'dstat', 'sysstat', 'mtr']
+    state: latest
    when: "ansible_distribution == 'Ubuntu'"
 
  - name: Install Python Software
-   yum: 
-    name: "{{ item }}"
-    state: present
-   with_items: 
-    - python-simplejson
-    - python-httplib2
-    - python-devel
-    - libselinux-python
+   yum:
+    name: ['python-simplejson', 'python-httplib2', 'python-devel', 'libselinux-python']
+    state: latest
    when: "ansible_distribution == 'CentOS'"
 
- - name: Install Python Software On Centos 6
-   yum: 
-    name: "{{ item }}"
-    state: present
-   when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'"
-   with_items: 
-    - python-pip
-
  - name: Install Python Software On Centos 7
-   yum: 
-    name: "{{ item }}"
-    state: present
+   yum:
+    name: "python2-pip"
+    state: latest
    when: "ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'"
-   with_items: 
-    - python2-pip
+
 
 
  - name: Install Perl Software
-   yum: 
-    name: "{{ item }}" 
-    state: present
-   with_items:
-    - perl-DBI 
-    - perl-DBD-MySQL
-    - perl-Config-Tiny
-    - perl-ExtUtils-MakeMaker
-    - perl-CPAN
+   yum:
+    name: ['perl-DBI', 'perl-DBD-MySQL', 'perl-Config-Tiny', 'perl-ExtUtils-MakeMaker', 'perl-CPAN']
+    state: latest
    when: "ansible_distribution == 'CentOS'"
 
 ...

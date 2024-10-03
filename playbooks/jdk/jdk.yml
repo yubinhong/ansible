@@ -1,0 +1,6 @@
+---
+ - hosts: all
+   become: yes
+   become_method: "{{ become_method }}"
+   roles:
+     - jdk

@@ -1,6 +1,0 @@
----
- - name: template the post-commit to server
-   template:
-     src: post-commit.j2
-     dest: "{{ svn_dir }}/{{ nginx_server_name }}/hooks/post-commit"
-     mode: 0755

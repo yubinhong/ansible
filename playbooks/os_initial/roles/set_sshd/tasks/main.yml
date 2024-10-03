@@ -1,25 +1,25 @@
 ---
- - name: Modify /etc/ssh/sshd_config On CentOS 7/6
-   copy: 
-    src: sshd_config_{{ ansible_distribution_major_version }} 
-    dest: /etc/ssh/sshd_config
-   when: "ansible_distribution == 'CentOS'"
-   notify:
-     - Restart sshd
+# - name: Modify /etc/ssh/sshd_config On CentOS 7/6
+#   copy:
+#    src: sshd_config_{{ ansible_distribution_major_version }}
+#    dest: /etc/ssh/sshd_config
+#   when: "ansible_distribution == 'CentOS'"
+#   notify:
+#     - Restart sshd
 
- - name: Modify /etc/ssh/sshd_config On CentOS 7/6
-   copy:
-    src: sshd_config_ubuntu
-    dest: /etc/ssh/sshd_config
-   when: "ansible_distribution == 'Ubuntu'"
-   notify:
-     - Restart sshd
+# - name: Modify /etc/ssh/sshd_config On CentOS 7/6
+#   copy:
+#    src: sshd_config_ubuntu
+#    dest: /etc/ssh/sshd_config
+#   when: "ansible_distribution == 'Ubuntu'"
+#   notify:
+#     - Restart sshd
 
  - name: Add Authorized_keys
    authorized_key: 
-    user: "{{ ansible_ssh_user }}"
-    key: "{{ item }}" 
-   with_file: 
-    - public_keys/ops
+    user: "ops"
+    key: "{{ item }}"
+   with_file:
+    - public_keys/{{ env }}-ops
 
 ...

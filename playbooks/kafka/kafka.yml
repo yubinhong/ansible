@@ -1,5 +1,13 @@
 ---
- - hosts: kafka
+ - hosts: cluster
+   become: yes
+   become_method: "{{ become_method }}"
    roles:
-    - role: kafka
-...
+     - cluster
+
+
+ - hosts: standalone
+   become: yes
+   become_method: "{{ become_method }}"
+   roles:
+     - standalone

@@ -1,0 +1,16 @@
+---
+ - hosts: eth
+   become: yes
+   roles:
+    - role: eth
+
+ - hosts: usdt
+   become: yes
+   roles:
+    - role: usdt
+
+ - hosts: bitcoin
+   become: yes
+   roles:
+    - role: bitcoin
+...

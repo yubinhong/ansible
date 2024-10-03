@@ -1,0 +1,18 @@
+---
+ - name: update kernel for centos7
+   yum:
+     name: kernel
+     state: latest
+   when: "ansible_distribution == 'CentOS'"
+   ignore_errors: True
+
+ - name: update kernel for ubuntu
+   apt:
+     name: linux-image-generic
+     state: latest
+   when: "ansible_distribution == 'Ubuntu'"
+   ignore_errors: True
+
+
+
+

@@ -1,2 +1,7 @@
----
-tempdir: "/tmp"
+kafka_major_version: "2.12"
+kafka_minor_version: "2.3.1"
+kafka_url: "https://mirrors.huaweicloud.com/apache/kafka/{{ kafka_minor_version }}/kafka_{{ kafka_major_version }}-{{ kafka_minor_version }}.tgz"
+zookeeper_version: "3.4.14"
+zookeeper_url: "https://mirrors.huaweicloud.com/apache/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+tmp_dir: "/tmp/"
+software_path: "/usr/local/"

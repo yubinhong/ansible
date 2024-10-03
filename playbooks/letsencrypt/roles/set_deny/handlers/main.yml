@@ -1,3 +1,0 @@
----
- - name: Reload Nginx
-   command: /usr/local/webserver/nginx -s reload

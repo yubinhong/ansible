@@ -1,3 +1,0 @@
----
-composer_name: "composer.phar"
-composer_url: "{{ package_url_prefix }}/php/{{ composer_name }}"

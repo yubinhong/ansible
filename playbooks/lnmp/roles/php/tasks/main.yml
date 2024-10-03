@@ -1,33 +1,15 @@
 ---
- - name: Import Secret Vars
-   include_vars: "{{ item }}"
-   with_items:
-    - "secret.yml"
-
  - name: Install PHP on centos7
    yum:
     name: "{{ php_package_url }}"
     state: present
    when: ansible_distribution_major_version == '7'
 
- - name: Install PHP on centos6
+ - name: Install PHP Require Packages
    yum:
-    name: "{{ php6_package_url }}"
-    state: present
-   when: ansible_distribution_major_version == '6'
-
- - block:
-    - debug:
-       msg: Get PHP Conf
-    - file: 
-       path: "{{ php_install_dir }}/etc"
-       state: absent
-    - subversion: 
-       repo: "{{ php_conf_url }}"
-       username: "{{ SVN_USER }}"
-       password: "{{ SVN_PASSWD }}"
-       dest: "{{ php_install_dir }}/etc"
-       force: yes
+     name: ["libxslt", "libX11", "libXpm", "libpng", "libjpeg", "libicu"]
+     state: present
+   when: ansible_distribution_major_version == '7'
 
  - name: Generate Logs Directory
    file:
@@ -36,6 +18,21 @@
     group: "{{ php_user }}"
     recurse: yes
     state: directory
+
+ - name: Create directory var/run/
+   file:
+     path: "{{ php_install_dir}}/var/run"
+     recurse: yes
+     state: directory
+
+ - name: Set php.ini and php-fpm.conf to php config dir
+   template:
+     src: "{{ item }}"
+     dest: "{{ php_install_dir }}/etc/"
+   with_items:
+     - "php.ini"
+     - "php-fpm.conf"
+
 
  - name: Start Daemon When System Boot
    lineinfile:

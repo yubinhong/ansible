@@ -1,6 +1,0 @@
----
-#filebeat
-name: "filebeat-5.0.0-x86_64.rpm"
-package_url: "{{ url_prefix }}/{{ name }}"
-logdir: "/data0/logs"
-type: "nginx"

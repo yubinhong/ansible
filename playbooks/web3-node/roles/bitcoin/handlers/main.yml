@@ -1,0 +1,11 @@
+---
+# - name: Restart Zabbix-agentd On CentOS 7
+#   shell: systemctl start zabbix-agent && systemctl enable zabbix-agent
+
+ - name: Start btcnode
+   service: 
+    name: btcnode
+    state: started
+    enabled: yes
+
+...

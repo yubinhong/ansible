@@ -1,0 +1,12 @@
+---
+ - hosts: login_alert
+   become: yes
+   become_method: "{{ become_method }}"
+   roles:
+     - login_alert
+
+ - hosts: update_kernel
+   become: yes
+   become_method: "{{ become_method }}"
+   roles:
+     - update_kernel

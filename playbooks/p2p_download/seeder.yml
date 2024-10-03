@@ -1,5 +1,0 @@
----
- - hosts: seeder
-   roles:
-     - make_torrent
-     - start_seeding

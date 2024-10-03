@@ -1,9 +1,10 @@
 ---
-release_version: 1.10.2
-build_version: 12
+release_version: 1.18.0
+build_version: 1.el7
+arch: x86_64
 version: "nginx-{{ release_version }}-{{ build_version }}"
-nginx_package_url: "{{ package_url_prefix }}/nginx/{{ version }}.el{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.rpm"
+nginx_package_url: "https://qa.static.fortop.site/{{ version }}.{{ arch }}.rpm"
 nginx_user: www
-nginx_install_dir: "/usr/local/webserver/nginx{{ release_version }}"
-nginx_link_dir: "/usr/local/webserver/nginx"
-nginx_logs_dir: "/data0/logs/nginx"
+nginx_install_dir: "/usr/local/web/nginx"
+nginx_logs_dir: "/data/logs/nginx"
+Nginx_Package_for_ubuntu: "https://qa.static.fortop.site/nginx_1.18.0_amd64.deb"

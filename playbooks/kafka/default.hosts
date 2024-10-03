@@ -1,2 +1,21 @@
-[kafka]
-127.0.0.1
+[cluster]
+127.0.0.1 id=1
+127.0.0.1 id=2
+127.0.0.1 id=3
+[standalone]
+
+[cluster:vars]
+ansible_ssh_user=centos
+become_method="sudo"
+#ansible_become_pass=onecafe123
+ansible_ssh_private_key_file=/data/var/key/wb_gz_key.pem
+server_1=127.0.0.1
+server_2=127.0.0.1
+server_3=127.0.0.1
+[standalone:vars]
+ansible_ssh_user=centos
+become_method="sudo"
+#ansible_become_pass=onecafe123
+#host_name为定义每台主机zabbix显示的主机名
+#ansible_ssh_private_key_file  指定私钥文件
+ansible_ssh_private_key_file=/data/var/key/wb_gz_key.pem

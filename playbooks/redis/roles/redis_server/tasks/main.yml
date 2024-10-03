@@ -1,11 +1,4 @@
 ---
- - name: Install Dependent Packages
-   yum:
-    name: "{{ item }}"
-    state: present
-   with_items:
-    - jemalloc
-    - jemalloc-devel
 
  - name: Get Redis Source Code
    uri:
@@ -21,26 +14,58 @@
        dest: "{{ build_dir }}"
        copy: no
        creates: "{{ build_dir }}/{{ redis_package }}"
-    - shell: cd "{{ build_dir }}/{{ redis_package }}" && make clean && make distclean && make && make "PREFIX={{ redis_install_dir }}" install
+    - shell: cd "{{ build_dir }}/{{ redis_package }}" && make && make install && cp src/redis-server /usr/bin/ && cp src/redis-cli /usr/bin/
+
+
+ - name: Add redis Group
+   group: 
+    name: "redis" 
+    gid: "1001" 
+    state: present 
+    system: yes
+   ignore_errors: True
+
+ - name: Add redis User
+   user: 
+    name: "redis" 
+    group: "redis" 
+    uid: "1001" 
+    createhome: no 
+    comment: "redis user" 
+    shell: /sbin/nologin 
+    state: present 
+    system: yes
+   ignore_errors: True
+
+
+ - name: copy redis.service to /etc/systemd/system
+   template:
+    src: redis.service
+    dest: /etc/systemd/system/redis.service
+
+ - name: Create directory /etc/redis
+   file:
+    path: "{{ item }}"
+    state: directory
+    owner: "redis"
+    group: "redis"
+    mode: 0755
+   with_items:
+     - "/etc/redis"
+
+ - name: copy redis.conf to /etc/redis/
+   template:
+    src: redis.conf
+    dest: /etc/redis/redis.conf
  
- - block:
-    - debug:
-       msg: Generate Redis Instance Dir
-    - command: ls -d /data0/script
-      register: result
-      ignore_errors: True
-    - git: 
-       repo: "{{ scripts_url }}"
-       dest: "{{ scripts_dir }}"
-       clone: yes
-       force: yes
-    - command: /bin/bash "{{ scripts_dir }}/redis/redis_gen.sh" "{{ redis_port }}"
-      notify:
-       - Restart Redis
+ - name: Modify /etc/sysctl.conf
+   sysctl: 
+    name: "vm.overcommit_memory" 
+    value: "1" 
+    state: present 
+    reload: yes
 
- - name: Start Daemon When System Boot
-   shell: echo "{{ redis_instance_dir }}/{{ redis_port }}/redisd start" >> /etc/rc.local
-
- - name: Export PATH
-   shell: echo "export PATH={{ redis_install_dir }}/bin:\$PATH" >> /root/.bash_profile
+ - name: start redis
+   notify:
+    - Start redis
 ...

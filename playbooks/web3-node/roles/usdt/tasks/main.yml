@@ -1,0 +1,54 @@
+---
+ - name: download usdt
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ usdt_url }}"
+
+ #- name: install supervisor
+ #  apt:
+ #   name: supervisor
+ #   update_cache: yes
+
+ - name: create directory /data
+   file:
+    path: "/home/{{ ansible_ssh_user }}/.bitcoin"
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+
+ - name: unarchive usdt
+   unarchive:
+    src: "{{ tmp_dir }}/{{ usdt_package }}-x86_64-linux-gnu.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    list_files: no
+
+ - name: create usdt link
+   file:
+    src: "{{ software_path }}/{{ usdt_package }}"
+    dest: "{{ software_path }}/omnicore"
+    state: link
+
+ - name: copy bitcoin.conf to HOME
+   copy:
+    src: bitcoin.conf
+    dest: "/home/{{ ansible_ssh_user }}/.bitcoin/bitcoin.conf"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: 0600
+
+ - name: copy usdtnode.service
+   template:
+    src: usdtnode.service
+    dest: /etc/systemd/system/usdtnode.service
+
+ - name: sleep 5
+   shell: sleep 5
+   notify:
+    - Start usdtnode
+
+
+
+

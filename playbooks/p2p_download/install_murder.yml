@@ -1,4 +1,0 @@
----
- - hosts: all
-   roles:
-     - install_murder

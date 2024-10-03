@@ -1,0 +1,38 @@
+filebeat.inputs:
+
+- type: log
+  paths:
+    - /data/admin/php-admin/RunData/**/*.log
+  multiline.pattern: '^\d{4}-\d{2}-\d{2}[[:space:]]{1}\d{2}:\d{2}:\d{2}'
+  multiline.negate: true
+  multiline.match: after
+  fields:
+    feature: {{ host_name }}-{{ inventory_hostname }}
+  spool_size: 256
+  backoff: 1s
+  scan_frequency: 20s
+  idle_timeout: 10s
+  tail_files: true
+
+- type: log
+  paths:
+    - /data/logs/**/*.log
+
+  multiline.pattern: '^[[:space:]]{2,4}|^Traceback|.*Error:|^[[:space:]]+at|^Caused by:|.*Exception'
+  multiline.negate: false
+  multiline.match: after
+  fields:
+   feature: {{ host_name }}-{{ inventory_hostname }}
+  spool_size: 256
+  backoff: 1s
+  scan_frequency: 20s
+  idle_timeout: 10s
+  tail_files: true
+
+
+
+
+output.redis:
+  hosts: ["{{ redis_server }}"]
+  port: {{ redis_port}}
+  password: "{{ redis_pwd }}"

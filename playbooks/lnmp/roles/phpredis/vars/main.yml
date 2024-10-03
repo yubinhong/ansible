@@ -1,0 +1,3 @@
+phpredis_version: 4.1.1
+phpredis_package_url: "https://qa.static.fortop.site/phpredis-{{ phpredis_version }}.zip"
+php_install_dir: /usr/local/web/php

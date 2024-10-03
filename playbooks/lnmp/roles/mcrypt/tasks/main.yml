@@ -1,0 +1,23 @@
+---
+ - name: Install depend package
+   yum:
+     name: ['libmcrypt','libmcrypt-devel','mcrypt', 'mhash']
+     state: latest
+   register: result
+   retries: 3
+   delay: 1
+   until: result is succeeded
+   when: "ansible_distribution == 'CentOS'"
+ - name: Download mcrypt package
+   unarchive:
+    src: "{{ mcrypt_package_url }}"
+    dest: "{{ tempdir }}"
+    remote_src: True
+
+
+ - name: make and make install mcrypt
+   shell: "{{ php_install_dir }}/bin/phpize && ./configure --with-php-config={{ php_install_dir }}/bin/php-config && make && make install"
+   args:
+     chdir: "/tmp/mcrypt-{{ mcrypt_version }}"
+
+...

@@ -1,0 +1,4 @@
+software_path: "/data/"
+eth_package: "geth-linux-amd64-1.9.23-8c2f2715"
+tmp_dir: "/tmp"
+eth_url: "https://gethstore.blob.core.windows.net/builds/{{ eth_package }}.tar.gz"

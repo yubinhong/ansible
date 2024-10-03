@@ -5,10 +5,9 @@
    roles:
     - role: set_sysctl
     - role: install_base_soft
-    - role: set_sshd
     - role: add_users
+    - role: set_sshd
     - role: set_limits
-    - role: zabbix_agent
     - role: set_others
 
  - hosts: ubuntu
@@ -16,9 +15,8 @@
    roles:
     - role: set_sysctl
     - role: install_base_soft
-    - role: set_sshd
     - role: add_users
+    - role: set_sshd
     - role: set_limits
-    - role: zabbix_agent
     - role: set_others
 ...

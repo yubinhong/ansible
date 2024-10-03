@@ -1,4 +1,0 @@
----
-mysql_sock_dir: "/data0/mysql/3306/mysql.sock"
-db_host: "127.0.0.1"
-user_host: "%"

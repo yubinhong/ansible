@@ -1,8 +1,0 @@
----
-package_url_prefix: "https://download.elastic.co/logstash/logstash"
-logstash_package_name: "logstash-2.3.4"
-logstash_package_fullname: "{{ logstash_package_name }}.tar.gz"
-logstash_package_url: "{{ package_url_prefix }}/{{ logstash_package_fullname }}"
-logstash_basedir: "/usr/local/webserver/logstash"
-
-input: "redis"

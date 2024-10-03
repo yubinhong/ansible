@@ -1,0 +1,80 @@
+---
+ - name: create directory
+   file:
+     path: "{{ item }}"
+     owner: "{{ ansible_ssh_user }}"
+     group: "{{ ansible_ssh_user }}"
+     state: directory
+     recurse: yes
+   with_items:
+     - "/data/zookeeper/data"
+     - "/data/zookeeper/datalog"
+     - "/data/kafka/kafka-logs"
+ - name: download zookeeper
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ zookeeper_url }}"
+
+ - name: unarchive zookeeper
+   unarchive:
+    src: "{{ tmp_dir }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    list_files: no
+
+ - name: create zookeeper link
+   file:
+    src: "{{ software_path }}/zookeeper-{{ zookeeper_version }}"
+    dest: "{{ software_path }}/zookeeper"
+    state: link
+
+ - name: copy zoo.cfg
+   template:
+     src: "zoo.cfg.j2"
+     dest: "/usr/local/zookeeper/conf/zoo.cfg"
+
+ - name: copy zkEnv.sh
+   copy:
+     src: "zkEnv.sh"
+     dest: "/usr/local/zookeeper/bin/zkEnv.sh"
+     owner: "{{ ansible_ssh_user }}"
+     group: "{{ ansible_ssh_user }}"
+
+ - name: set myid
+   lineinfile:
+     path: "/data/zookeeper/data/myid"
+     line: "{{ id }}"
+     owner: "{{ ansible_ssh_user }}"
+     group: "{{ ansible_ssh_user }}"
+     create: yes
+
+ - name: download kafka
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ kafka_url }}"
+
+ - name: unarchive kafka
+   unarchive:
+    src: "{{ tmp_dir }}/kafka_{{ kafka_major_version }}-{{ kafka_minor_version }}.tgz"
+    dest: "{{ software_path }}"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    copy: no
+    list_files: no
+
+ - name: create kafka link
+   file:
+    src: "{{ software_path }}/kafka_{{ kafka_major_version }}-{{ kafka_minor_version }}"
+    dest: "{{ software_path }}/kafka"
+    state: link
+
+ - name: copy server.properties
+   template:
+     src: "server.properties"
+     dest: "/usr/local/kafka/config/server.properties"
+     owner: "{{ ansible_ssh_user }}"
+     group: "{{ ansible_ssh_user }}"

@@ -1,0 +1,7 @@
+---
+software_path: "/usr/local"
+major_version: "3"
+minor_version: "3.6.3"
+maven_package: "apache-maven-{{ minor_version }}"
+tmp_dir: "/tmp"
+maven_url: "https://mirrors.huaweicloud.com/apache/maven/maven-{{ major_version }}/{{ minor_version }}/binaries/{{ maven_package }}-bin.tar.gz"

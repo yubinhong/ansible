@@ -1,0 +1,5 @@
+---
+software_path: "/usr/local"
+filebeat_package: "filebeat-6.4.0-linux-x86_64"
+tmp_dir: "/tmp"
+filebeat_url: "https://artifacts.elastic.co/downloads/beats/filebeat/{{ filebeat_package }}.tar.gz"

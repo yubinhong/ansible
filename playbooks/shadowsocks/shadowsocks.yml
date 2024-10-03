@@ -1,4 +1,0 @@
----
- - hosts: shadowsocks-libev
-   roles:
-    - shadowsocks-libev

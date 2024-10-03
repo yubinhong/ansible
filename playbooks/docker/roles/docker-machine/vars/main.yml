@@ -1,4 +1,0 @@
----
-name: "docker-machine"
-version: "v0.7.0"
-url: "{{ url_prefix }}/docker/{{ name }}_{{ version }}"

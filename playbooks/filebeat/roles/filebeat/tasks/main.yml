@@ -1,0 +1,38 @@
+---
+ - name: download filebeat
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ filebeat_url }}"
+
+ - name: unarchive filebeat
+   unarchive:
+    src: "{{ tmp_dir }}/{{ filebeat_package }}.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    list_files: no
+
+ - name: create filebeat link
+   file:
+    src: "{{ software_path }}/{{ filebeat_package }}"
+    dest: "{{ software_path }}/filebeat"
+    owner: "root"
+    group: "root"
+    state: link
+
+ - name: copy filebeat.service to /etc/systemd/system/
+   template:
+     src: "filebeat.service"
+     dest: "/etc/systemd/system/filebeat.service"
+
+ - name: copy filebeat.yml to /usr/local/filebeat
+   template:
+     src: "filebeat.yml"
+     dest: "{{ software_path }}/filebeat/filebeat.yml"
+
+ - name: start filebeat service
+   service:
+     name: filebeat
+     state: restarted
+     enabled: yes
+

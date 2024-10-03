@@ -1,9 +1,4 @@
 ---
- - name: Install libselinux-python
-   yum: 
-    name: libselinux-python
-    state: present
-   when: ansible_distribution_major_version == '6'
 
  - name: Modify /etc/sysctl.conf
    sysctl: 

@@ -1,7 +1,0 @@
----
- - name: Restart Docker-engine
-   service:
-    name: docker
-    state: restarted
-    enabled: yes
-...

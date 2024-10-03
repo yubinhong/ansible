@@ -1,0 +1,26 @@
+---
+ - name: download maven
+   get_url:
+    dest: "{{ tmp_dir }}"
+    url: "{{ maven_url }}"
+
+ - name: unarchive maven
+   unarchive:
+    src: "{{ tmp_dir }}/{{ maven_package }}-bin.tar.gz"
+    dest: "{{ software_path }}/"
+    copy: no
+    list_files: no
+
+ - name: create maven link
+   file:
+    src: "{{ software_path }}/{{ maven_package }}"
+    dest: "{{ software_path}}/maven"
+    state: link
+
+ - name: export env
+   lineinfile:
+    path: /etc/profile
+    line: "{{ item }}"
+   with_items:
+    - "export MAVEN_HOME={{ software_path }}/maven"
+    - "export PATH=$MAVEN_HOME/bin:$PATH"

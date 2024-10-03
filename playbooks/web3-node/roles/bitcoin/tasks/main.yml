@@ -1,0 +1,55 @@
+---
+ - name: download bitcoin
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ bitcoin_url }}"
+
+ #- name: install supervisor
+ #  apt:
+ #   name: supervisor
+ #   update_cache: yes
+
+ - name: create directory /data
+   file:
+    path: "/home/{{ ansible_ssh_user }}/.bitcoin"
+    state: directory
+    mode: 0755
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+
+
+ - name: unarchive bitcoin
+   unarchive:
+    src: "{{ tmp_dir }}/{{ bitcoin_package }}-x86_64-linux-gnu.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    list_files: no
+
+ - name: create bitcoin link
+   file:
+    src: "{{ software_path }}/{{ bitcoin_package }}"
+    dest: "{{ software_path }}/bitcoin"
+    state: link
+
+ - name: copy bitcoin.conf to HOME
+   copy:
+    src: bitcoin.conf
+    dest: "/home/{{ ansible_ssh_user }}/.bitcoin/bitcoin.conf"
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+    mode: 0600
+
+ - name: copy btcnode.service to /etc/systemd/system
+   template:
+    src: btcnode.service
+    dest: /etc/systemd/system/btcnode.service
+
+ - name: sleep 5
+   shell: sleep 5
+   notify:
+    - Start btcnode
+
+
+
+

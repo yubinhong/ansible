@@ -1,7 +1,0 @@
----
-#url_prefix: "https://artifacts.elastic.co/downloads/logstash"
-name: "logstash"
-version: "5.2.0"
-package_fullname: "{{ name }}-{{ version }}.rpm"
-package_url: "{{ url_prefix }}/{{ package_fullname }}"
-confdir: "/etc/logstash"

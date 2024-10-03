@@ -1,23 +1,28 @@
 ---
  - hosts: lnmp
+   become: yes
+   become_method: "{{ become_method }}"
    roles:
     - nginx
     - php
-    - mysql
+    - phpredis
+    - mcrypt
 
  - hosts: nginx
+   become: yes
    roles:
     - nginx
 
  - hosts: php
+   become: yes
    roles:
     - php
+    - phpredis
+    - mcrypt
+
 
  - hosts: mysql
+   become: yes
    roles:
-    - mysql
-
- - hosts: percona_tools
-   roles:
-    - percona_tools
+     - mysql
 ...

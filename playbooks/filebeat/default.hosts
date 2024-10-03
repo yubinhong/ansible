@@ -1,0 +1,17 @@
+[ubuntu]
+#127.0.0.1 host_name='test'
+[centos]
+#127.0.0.1 host_name='test'
+[ubuntu:vars]
+ansible_ssh_user=ubuntu
+#ansible_become_pass=onecafe123
+[centos:vars]
+ansible_ssh_user=centos
+become_method="sudo"
+#ansible_become_pass=onecafe123
+#host_name为定义每台主机zabbix显示的主机名
+#ansibkle_ssh_private_key_file  指定私钥文件
+ansible_ssh_private_key_file=/data/var/key/wb_gz_key.pem
+redis_server=
+redis_port=
+redis_pwd=

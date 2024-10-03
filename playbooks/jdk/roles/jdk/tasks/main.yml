@@ -1,0 +1,28 @@
+---
+ - name: download jdk
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ jdk_url }}"
+
+ - name: unarchive jdk
+   unarchive:
+    src: "{{ tmp_dir }}/{{ jdk_package }}.tar.gz"
+    dest: "{{ software_path }}"
+    copy: no
+    list_files: no
+
+ - name: create jdk link
+   file:
+    src: "{{ software_path }}/jdk1.8.0_171"
+    dest: "{{ software_path}}/jdk"
+    state: link
+
+ - name: export env
+   lineinfile:
+    path: /etc/profile
+    line: "{{ item }}"
+   with_items:
+    - "export JAVA_HOME={{ software_path }}/jdk"
+    - "export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar"
+    - "export PATH=$JAVA_HOME/bin:$PATH"

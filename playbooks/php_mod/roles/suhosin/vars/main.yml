@@ -1,5 +1,0 @@
----
-version: 0.9.38
-suhosin_package: suhosin-{{ version }}
-suhosin_package_url: "{{ package_url_prefix }}/{{ suhosin_package }}.tar.gz"
-php_install_dir: /usr/local/webserver/php
