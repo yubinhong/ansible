@@ -1,0 +1,33 @@
+---
+ - name: download exporter
+   get_url:
+    validate_certs: no
+    dest: "{{ tmp_dir }}"
+    url: "{{ exporter_url }}"
+
+ - name: unarchive exporter
+   unarchive:
+    src: "{{ tmp_dir }}/{{ exporter_package }}.tar.gz"
+    dest: "/tmp"
+    copy: no
+    list_files: no
+
+ - name: copy node_exporter to /usr/local/bin/
+   ansible.builtin.command:
+    argv:
+      - cp
+      - /tmp/{{ exporter_package }}/node_exporter
+      - /usr/local/bin/
+
+ - name: copy node-exporter.service to /etc/systemd/system
+   template:
+    src: node-exporter.service
+    dest: /etc/systemd/system/node-exporter.service
+    owner: root
+    group: root
+    mode: '0755'
+
+ - name: sleep 5
+   shell: sleep 5
+   notify:
+    - Start node-exporter

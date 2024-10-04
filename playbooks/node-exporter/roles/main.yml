@@ -1,0 +1,4 @@
+## write your playbook here
+ - hosts: all
+   roles:
+     - node-exporter

@@ -1,0 +1,6 @@
+---
+ - name: Start node-exporter
+   service:
+    name: node-exporter
+    state: started
+    enabled: yes

@@ -1,0 +1,6 @@
+---
+exporter_path: "/usr/local/bin"
+exporter_version: "1.8.2"
+exporter_package: "node_exporter-{{ exporter_version }}.linux-amd64"
+tmp_dir: "/tmp"
+exporter_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ exporter_version }}/{{ exporter_package }}.tar.gz"
