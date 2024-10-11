@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - mysql
+
+- hosts: mysql_master
+  become: yes
+  tasks:
+    - include_role:
+        name: mysql
+      vars:
+        is_master: true
+
+- hosts: mysql_slaves
+  become: yes
+  tasks:
+    - include_role:
+        name: mysql
+      vars:
+        is_slave: true

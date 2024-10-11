@@ -1,0 +1,19 @@
+---
+- name: Copy MySQL configuration file
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_config_file }}"
+    mode: 0644
+    owner: mysql
+    group: mysql
+  notify: Restart MySQL
+
+- name: Create replication user on master
+  mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_password }}"
+    host: '%'
+    priv: '*.*:REPLICATION SLAVE'
+    state: present
+  when: is_master | default(false)
+
