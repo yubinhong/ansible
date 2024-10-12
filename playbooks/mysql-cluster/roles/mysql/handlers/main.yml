@@ -1,5 +1,5 @@
 ---
 - name: Restart MySQL
   service:
-    name: mysql
+    name: mysqld
     state: restarted
