@@ -1,4 +1,8 @@
 ---
+- name: stop slave
+  mysql_replication:
+    mode: stopreplica
+    
 - name: change master on slaves
   mysql_replication:
     mode: changeprimary
