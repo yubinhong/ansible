@@ -6,6 +6,7 @@
   loop:
     - mysql-server
     - mysql-client
+    - python-pymysql
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Ensure MySQL is installed on CentOS/Rocky
@@ -15,6 +16,7 @@
   loop:
     - mysql-server
     - mysql
+    - python3-PyMySQL
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: Ensure MySQL is started and enabled
