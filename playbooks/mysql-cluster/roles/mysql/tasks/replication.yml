@@ -10,4 +10,4 @@
 
 - name: start slave
   mysql_replication:
-    mode: startslave
+    mode: startreplica
