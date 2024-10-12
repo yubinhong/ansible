@@ -1,5 +1,5 @@
 ---
-- name: Start MySQL replication on slaves
+- name: change master on slaves
   mysql_replication:
     mode: changeprimary
     master_host: "{{ hostvars['master']['ansible_host'] }}"
@@ -7,3 +7,7 @@
     master_password: "{{ mysql_replication_password }}"
     master_auto_position: true
   when: is_slave | default(false)
+
+- name: start slave
+  mysql_replication:
+    mode: startslave
