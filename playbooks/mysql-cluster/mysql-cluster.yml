@@ -1,23 +1,19 @@
 ---
-# - hosts: mysql_master
-#   become: yes
-#   tasks:
-#     - include_role:
-#         name: mysql
-#       vars:
-#         is_master: true
-
-# - hosts: mysql_slaves
-#   become: yes
-#   tasks:
-#     - include_role:
-#         name: mysql
-#       vars:
-#         is_slave: true
-
-- hosts: localhost
+- hosts: mysql_master
+  become: yes
   tasks:
-    - name: Print all ansible_host IPs
-      debug:
-        msg: "{{ groups['all'] }}"
+    - include_role:
+        name: mysql
+      vars:
+        is_master: true
+
+- hosts: mysql_slaves
+  become: yes
+  tasks:
+    - include_role:
+        name: mysql
+      vars:
+        is_slave: true
+
+
 
