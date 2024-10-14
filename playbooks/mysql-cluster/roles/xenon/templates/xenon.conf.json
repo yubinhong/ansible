@@ -1,0 +1,69 @@
+cat > /usr/local/xenon/xenon.conf.json <<  EOF
+
+{
+
+"server":{
+
+"endpoint":"{{ hostvars[inventory_hostname]['ansible_host'] }}:{{ xenon_port }}"
+
+},
+
+"raft":{
+
+"meta-datadir":"/usr/local/xenon/raft.meta",
+
+"heartbeat-timeout":1000,
+
+"election-timeout":3000,
+
+"admit-defeat-hearbeat-count": 5,
+
+"purge-binlog-disabled": true,
+
+"leader-start-command":"sudo /sbin/ip a a {{ vip }}/24 dev {{ network_dev }} && arping -c 3 -A {{ vip }} -I {{ network_dev }}",
+
+"leader-stop-command":"sudo /sbin/ip a d {{ vip }}/24 dev {{ network_dev }}"
+
+},
+
+"mysql":{
+
+"admin":"root",
+
+"passwd":"",
+
+"host":"127.0.0.1",
+
+"port":3306,
+
+"basedir":"/usr",
+
+"defaults-file":"/etc/my.cnf",
+
+"ping-timeout":1000
+
+},
+
+"replication":{
+
+"user":"rep",
+
+"passwd":"rep"
+
+},
+
+"rpc":{
+
+"request-timeout":500
+
+},
+
+"log":{
+
+"level":"ERROR"
+
+}
+
+}
+
+EOF

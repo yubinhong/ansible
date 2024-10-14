@@ -1,0 +1,21 @@
+[Unit]
+
+Description=xenon service
+
+After=network.target
+
+[Service]
+
+Type=simple
+
+User=root
+
+Group=root
+
+ExecStart=/usr/local/xenon/xenon -c /usr/local/xenon/xenon.conf.json
+
+Restart=on-failure
+
+[Install]
+
+WantedBy=multi-user.target

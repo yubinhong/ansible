@@ -8,3 +8,6 @@ slave2 ansible_host=slave2_ip ansible_user=root
 [all:vars]
 mysql_replication_user="rep"
 mysql_replication_password="rep"
+vip=vip
+network_dev=eth0
+xenon_port=8801

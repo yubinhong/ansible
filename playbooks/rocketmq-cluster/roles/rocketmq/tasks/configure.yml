@@ -1,0 +1,23 @@
+---
+# 配置 RocketMQ Master 和 Slave 节点
+
+- name: Configure Master Broker A
+  template:
+    src: broker-a.properties.j2
+    dest: /opt/rocketmq/conf/broker-a.properties
+  when: inventory_hostname in groups['masters']
+
+- name: Configure Slave Broker A
+  template:
+    src: broker-b.properties.j2
+    dest: /opt/rocketmq/conf/broker-b.properties
+  when: inventory_hostname in groups['slaves']
+
+- name: Set RocketMQ systemd service
+  template:
+    src: rocketmq.service.j2
+    dest: /etc/systemd/system/rocketmq.service
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes

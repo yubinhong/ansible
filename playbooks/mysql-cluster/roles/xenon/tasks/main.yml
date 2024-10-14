@@ -1,0 +1,49 @@
+ - name: Create directory /usr/local/xenon
+   file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+   with_items:
+     - "/usr/local/xenon"
+
+ - name: create file /usr/local/xenon/config.path
+   copy:
+    content: "/usr/local/xenon/xenon.conf.json"
+    dest: /usr/local/xenon/config.path
+
+ - name: copy xenon xenoncli to /usr/local/xenon
+   copy:
+    src: "{{ item }}"
+    dest: /usr/local/xenon
+   with_items:
+    - xenon
+    - xenoncli
+
+ - name: copy xenon.service to /etc/systemd/system
+   copy:
+    src: xenon.service
+    dest: /etc/systemd/system
+
+ - name: Ensure xenon is started and enabled
+   service:
+    name: xenon
+    state: started
+    enabled: yes
+ 
+ - name: sleep 10s
+   shell: sleep 10
+
+ - name: Generate cluster IPs with ports for all hosts
+   set_fact:
+    xenon_cluster: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:' + xenon_port) | join(',') }}"
+
+ - name: Print the generated xenon_cluster string 
+   debug:
+    msg: "Xenon cluster: {{ xenon_cluster }}"
+
+ - name: Add cluster using xenoncli
+   shell: "/usr/local/xenon/xenoncli cluster add {{ xenon_cluster }}"
+
+   

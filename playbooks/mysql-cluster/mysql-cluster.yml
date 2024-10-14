@@ -6,6 +6,7 @@
 
   roles:
     - mysql
+    - xenon
 
 - hosts: mysql_master
   become: yes

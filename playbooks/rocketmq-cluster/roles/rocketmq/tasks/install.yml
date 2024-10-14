@@ -1,0 +1,21 @@
+---
+# 安装所需的软件并下载 RocketMQ
+
+- name: Ensure Java is installed
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - java-1.8.0-openjdk  # 在 CentOS/Rocky Linux 上的包名
+    - openjdk-8-jdk  # 在 Ubuntu/Debian 上的包名
+
+- name: Download RocketMQ tarball
+  get_url:
+    url: "https://archive.apache.org/dist/rocketmq/4.8.0/rocketmq-all-4.8.0-bin-release.zip"
+    dest: /tmp/rocketmq.tar.gz
+
+- name: Extract RocketMQ tarball
+  unarchive:
+    src: /tmp/rocketmq.tar.gz
+    dest: /opt/rocketmq
+    remote_src: yes
