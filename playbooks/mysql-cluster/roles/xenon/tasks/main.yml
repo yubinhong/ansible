@@ -43,6 +43,12 @@
     content: "/usr/local/xenon/xenon.conf.json"
     dest: /usr/local/xenon/config.path
 
+ - name: copy xenon.conf.json to /usr/local/xenon
+   template:
+    src: xenon.conf.json.j2
+    dest: /usr/local/xenon/xenon.conf.json
+    mode: '0644'
+
  - name: copy xenon xenoncli to /usr/local/xenon
    copy:
     src: "{{ item }}"
