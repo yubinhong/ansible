@@ -68,6 +68,11 @@
  - name: sleep 10s
    shell: sleep 10
 
+ - name: Generate cluster IPs with ports for all hosts
+   set_fact:
+    xenon_cluster: "{{ groups['mysql_master'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:8801') | join(',') }},{{ groups['mysql_slaves'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:8801') | join(',') }}"
+   register: xenon_cluster
+
  - name: Print the generated xenon_cluster string 
    debug:
     msg: "Xenon cluster: {{ xenon_cluster }}"
