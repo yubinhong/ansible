@@ -70,14 +70,13 @@
 
  - name: Generate cluster IPs with ports for all hosts
    set_fact:
-    xenon_cluster: "{{ groups['mysql_master'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:8801') | join(',') }},{{ groups['mysql_slaves'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:8801') | join(',') }}"
-   register: xenon_cluster
+    xenon_cluster: "{{ all_host_ips | default([]) + [ansible_host] }}"
 
  - name: Print the generated xenon_cluster string 
    debug:
     msg: "Xenon cluster: {{ xenon_cluster }}"
 
- - name: Add cluster using xenoncli
-   shell: "/usr/local/xenon/xenoncli cluster add {{ xenon_cluster }}"
+ #- name: Add cluster using xenoncli
+ #  shell: "/usr/local/xenon/xenoncli cluster add {{ xenon_cluster }}"
 
    
