@@ -3,6 +3,9 @@
     query: "SHOW PLUGINS;"
    register: plugin_status
 
+ - name: output plugin_status
+   debug: {{ plugin_status }}
+
  - name: Install semi-sync master plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
