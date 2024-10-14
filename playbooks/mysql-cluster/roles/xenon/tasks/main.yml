@@ -37,7 +37,7 @@
 
  - name: Generate cluster IPs with ports for all hosts
    set_fact:
-    xenon_cluster: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:' + xenon_port) | join(',') }}"
+    xenon_cluster: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '(.*)', '\\1:' + (xenon_port | string)) | join(',') }}"
 
  - name: Print the generated xenon_cluster string 
    debug:
