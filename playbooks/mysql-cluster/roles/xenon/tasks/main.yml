@@ -1,3 +1,21 @@
+ - name: Enable semi-sync replication on the master
+   mysql_query:
+    query: |
+      INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';
+      INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';
+      SET GLOBAL rpl_semi_sync_master_enabled=1;
+      SET GLOBAL rpl_semi_sync_master_timeout=2147483648;
+      SET GLOBAL rpl_semi_sync_slave_enabled=1;
+
+ - name: Check if semi-sync replication plugins are installed
+   mysql_query:
+    query: "SHOW PLUGINS LIKE '%semi%';"
+    register: plugin_status
+
+ - name: Debug the installed plugins
+   debug:
+    var: plugin_status
+    
  - name: Create directory /usr/local/xenon
    file:
     path: "{{ item }}"
@@ -17,6 +35,7 @@
    copy:
     src: "{{ item }}"
     dest: /usr/local/xenon
+    mode: '0755'
    with_items:
     - xenon
     - xenoncli
