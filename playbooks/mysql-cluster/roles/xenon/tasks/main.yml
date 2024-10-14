@@ -1,6 +1,6 @@
  - name: Enable semi-sync replication on the master
    mysql_query:
-    query: "{{ items }}"
+    query: "{{ item }}"
    with_items:
       - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
       - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
