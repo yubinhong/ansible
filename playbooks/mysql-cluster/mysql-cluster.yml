@@ -1,15 +1,4 @@
 ---
-- hosts: all
-  become: yes
-  tasks:
-    - name: Collect all host IP addresses
-      set_fact:
-        all_host_ips: "{{ all_host_ips | default([]) + [ansible_host] }}"
-
-    - name: Print all collected IP addresses
-      debug:
-        msg: "All host IPs: {{ all_host_ips }}"
-
 - hosts: mysql_master
   become: yes
   tasks:
@@ -25,4 +14,11 @@
         name: mysql
       vars:
         is_slave: true
+
+- hosts: localhost
+  tasks:
+    - name: Print all ansible_host IPs
+      debug:
+        msg: "{{ hostvars[item]['ansible_host'] }}"
+      loop: "{{ groups['all'] }}"
 
