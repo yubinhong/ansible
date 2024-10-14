@@ -4,7 +4,7 @@
    register: plugin_status
 
  - name: output plugin_status
-   debug: {{ plugin_status }}
+   debug: "{{ plugin_status }}"
 
  - name: Install semi-sync master plugin if not installed
    mysql_query:
