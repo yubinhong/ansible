@@ -2,7 +2,8 @@
 - name: stop slave
   mysql_replication:
     mode: stopreplica
-    
+  when: is_slave | default(false)
+
 - name: change master on slaves
   mysql_replication:
     mode: changeprimary
@@ -15,3 +16,4 @@
 - name: start slave
   mysql_replication:
     mode: startreplica
+  when: is_slave | default(false)
