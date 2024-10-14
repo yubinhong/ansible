@@ -11,7 +11,7 @@
  - name: Check if semi-sync replication plugins are installed
    mysql_query:
     query: "SHOW PLUGINS LIKE '%semi%';"
-    register: plugin_status
+   register: plugin_status
 
  - name: Debug the installed plugins
    debug:
