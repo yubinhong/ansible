@@ -10,12 +10,12 @@
  - name: Install semi-sync master plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
-   when: "'rpl_semi_sync_master' not in plugin_status.query_result | map(attribute='Name')"
+   when: not (plugin_status.query_result | selectattr('Name', 'equalto', 'rpl_semi_sync_master') | list | length)
 
  - name: Install semi-sync slave plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
-   when: "'rpl_semi_sync_slave' not in plugin_status.query_result | map(attribute='Name')"
+   when: not (plugin_status.query_result | selectattr('Name', 'equalto', 'rpl_semi_sync_slave') | list | length)
  
  
  - name: Enable semi-sync replication on the master
