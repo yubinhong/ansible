@@ -1,9 +1,4 @@
 ---
-- hosts: all
-  become: yes
-  roles:
-    - mysql
-
 - hosts: mysql_master
   become: yes
   tasks:
