@@ -2,8 +2,8 @@
    mysql_query:
     query: {{ items }}
    with_items:
-      - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so'";
-      - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so'";
+      - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
+      - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
       - "SET GLOBAL rpl_semi_sync_master_enabled=1;"
       - "SET GLOBAL rpl_semi_sync_master_timeout=2147483648;"
       - "SET GLOBAL rpl_semi_sync_slave_enabled=1;"
