@@ -6,7 +6,6 @@
 
   roles:
     - mysql
-    - xenon
 
 - hosts: mysql_master
   become: yes
@@ -23,3 +22,11 @@
         name: mysql
       vars:
         is_slave: true
+
+- hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - xenon
