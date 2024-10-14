@@ -1,9 +1,28 @@
+ - name: Check if rpl_semi_sync_master is installed
+   mysql_query:
+    query: "SHOW PLUGINS LIKE 'rpl_semi_sync_master';"
+   register: master_plugin_status
+
+ - name: Install semi-sync master plugin if not installed
+   mysql_query:
+    query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
+   when: master_plugin_status.stdout.find('rpl_semi_sync_master') == -1
+
+ - name: Check if rpl_semi_sync_slave is installed
+   mysql_query:
+    query: "SHOW PLUGINS LIKE 'rpl_semi_sync_slave';"
+   register: slave_plugin_status
+
+ - name: Install semi-sync slave plugin if not installed
+   mysql_query:
+    query: "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
+   when: slave_plugin_status.stdout.find('rpl_semi_sync_slave') == -1
+ 
+ 
  - name: Enable semi-sync replication on the master
    mysql_query:
     query: "{{ item }}"
    with_items:
-      - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
-      - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
       - "SET GLOBAL rpl_semi_sync_master_enabled=1;"
       - "SET GLOBAL rpl_semi_sync_master_timeout=2147483648;"
       - "SET GLOBAL rpl_semi_sync_slave_enabled=1;"
