@@ -3,10 +3,6 @@
     query: "SHOW PLUGINS;"
    register: plugin_status
 
- - name: output plugin_status
-   debug: 
-    var: plugin_status.query_result[0]
-
  - name: Install semi-sync master plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
@@ -71,6 +67,10 @@
  
  - name: sleep 10s
    shell: sleep 10
+
+ - name: output the xenon_port
+   debug:
+    msg: "xenon_port is: {{ xenon_port }}"
 
  - name: Generate cluster IPs with ports for all hosts
    set_fact:
