@@ -1,22 +1,17 @@
  - name: Check if rpl_semi_sync_master is installed
    mysql_query:
-    query: "SHOW PLUGINS LIKE 'rpl_semi_sync_master';"
-   register: master_plugin_status
+    query: "SHOW PLUGINS;"
+   register: plugin_status
 
  - name: Install semi-sync master plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
-   when: master_plugin_status.stdout.find('rpl_semi_sync_master') == -1
-
- - name: Check if rpl_semi_sync_slave is installed
-   mysql_query:
-    query: "SHOW PLUGINS LIKE 'rpl_semi_sync_slave';"
-   register: slave_plugin_status
+   when: "'rpl_semi_sync_master' not in plugin_status.results[0].plugin_name"
 
  - name: Install semi-sync slave plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
-   when: slave_plugin_status.stdout.find('rpl_semi_sync_slave') == -1
+   when: "'rpl_semi_sync_slave' not in plugin_status.results[0].plugin_name"
  
  
  - name: Enable semi-sync replication on the master
@@ -26,15 +21,6 @@
       - "SET GLOBAL rpl_semi_sync_master_enabled=1;"
       - "SET GLOBAL rpl_semi_sync_master_timeout=2147483648;"
       - "SET GLOBAL rpl_semi_sync_slave_enabled=1;"
-
- - name: Check if semi-sync replication plugins are installed
-   mysql_query:
-    query: "SHOW PLUGINS LIKE '%semi%';"
-   register: plugin_status
-
- - name: Debug the installed plugins
-   debug:
-    var: plugin_status
 
  - name: Create directory /usr/local/xenon
    file:
