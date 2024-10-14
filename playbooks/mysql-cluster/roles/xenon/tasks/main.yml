@@ -5,17 +5,19 @@
 
  - name: output plugin_status
    debug: 
-    msg: "{{ plugin_status }}"
+    var: plugin_status.query_result
 
  - name: Install semi-sync master plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
-   when: not (plugin_status.query_result | selectattr('Name', 'equalto', 'rpl_semi_sync_master') | list | length)
+   when: >
+    not (plugin_status.query_result | selectattr(0, 'equalto', 'rpl_semi_sync_master') | list | length)
 
  - name: Install semi-sync slave plugin if not installed
    mysql_query:
     query: "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
-   when: not (plugin_status.query_result | selectattr('Name', 'equalto', 'rpl_semi_sync_slave') | list | length)
+   when: >
+    not (plugin_status.query_result | selectattr(0, 'equalto', 'rpl_semi_sync_slave') | list | length)
  
  
  - name: Enable semi-sync replication on the master
