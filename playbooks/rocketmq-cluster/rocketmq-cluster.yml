@@ -1,5 +1,33 @@
 ---
-- hosts: all
+- hosts: master-a
   become: yes
-  roles:
-    - rocketmq
+  tasks:
+    - include_role:
+        name: rocketmq
+      vars:
+        is_master_a: true
+
+- hosts: slave-a
+  become: yes
+  tasks:
+    - include_role:
+        name: rocketmq
+      vars:
+        is_slave_a: true
+
+
+- hosts: master-b
+  become: yes
+  tasks:
+    - include_role:
+        name: rocketmq
+      vars:
+        is_master_b: true
+
+- hosts: slave-b
+  become: yes
+  tasks:
+    - include_role:
+        name: rocketmq
+      vars:
+        is_slave_b: true

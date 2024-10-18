@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache RocketMQ Broker
+After=network.target rocketmq-nameserver.service
+
+[Service]
+Type=forking
+ExecStart=/opt/rocketmq/bin/mqbroker -n {{ groups['nameserver'] | map('extract', hostvars, 'ansible_host') | product(['9876']) | map('join',':') | join(',') }} -c /opt/rocketmq/conf/broker.conf --enable-proxy
+ExecStop=/opt/rocketmq/bin/mqshutdown broker
+User=rocketmq
+Group=rocketmq
+Restart=on-failure
+LimitNOFILE=655350
+
+[Install]
+WantedBy=multi-user.target
