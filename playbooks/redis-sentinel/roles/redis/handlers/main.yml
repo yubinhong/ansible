@@ -1,0 +1,12 @@
+ ---
+ - name: Start redis
+   service: 
+    name: redis
+    state: started
+    enabled: yes
+
+ - name: Start redis-sentinel
+   service: 
+    name: redis-sentinel
+    state: started
+    enabled: yes

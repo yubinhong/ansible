@@ -1,0 +1,85 @@
+---
+
+ - name: Get Redis Source Code
+   uri:
+    url: "{{ redis_package_url }}"
+    dest: "{{ build_dir }}"
+    creates: "{{ build_dir }}/{{ redis_package }}.tar.gz"
+
+ - block: 
+    - debug: 
+       msg: Build Redis Source Code
+    - unarchive:
+       src: "{{ build_dir }}/{{ redis_package }}.tar.gz"
+       dest: "{{ build_dir }}"
+       copy: no
+       creates: "{{ build_dir }}/{{ redis_package }}"
+    - shell: cd "{{ build_dir }}/{{ redis_package }}" && make && make install && cp src/redis-server /usr/bin/ && cp src/redis-cli /usr/bin/ && cp src/redis-sentinel /usr/bin/
+
+
+ - name: Add redis Group
+   group: 
+    name: "redis" 
+    gid: "1001" 
+    state: present 
+    system: yes
+   ignore_errors: True
+
+ - name: Add redis User
+   user: 
+    name: "redis" 
+    group: "redis" 
+    uid: "1001" 
+    createhome: no 
+    comment: "redis user" 
+    shell: /sbin/nologin 
+    state: present 
+    system: yes
+   ignore_errors: True
+
+
+ - name: copy redis.service to /etc/systemd/system
+   template:
+    src: redis.service.j2
+    dest: /etc/systemd/system/redis.service
+
+ - name: copy redis-sentinel.service to /etc/systemd/system
+   template:
+    src: redis-sentinel.service.j2
+    dest: /etc/systemd/system/redis-sentinel.service
+
+ - name: Create directory /etc/redis
+   file:
+    path: "{{ item }}"
+    state: directory
+    owner: "redis"
+    group: "redis"
+    mode: 0755
+   with_items:
+     - "/etc/redis"
+
+ - name: copy redis.conf to /etc/redis/
+   template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+
+ - name: copy redis-sentinel.conf to /etc/redis/
+   template:
+    src: redis-sentinel.conf.j2
+    dest: /etc/redis/redis-sentinel.conf
+ 
+ - name: Modify /etc/sysctl.conf
+   sysctl: 
+    name: "vm.overcommit_memory" 
+    value: "1" 
+    state: present 
+    reload: yes
+
+ - name: start redis
+   notify:
+    - Start redis
+
+ - name: start redis-sentinel
+   notify:
+    - Start redis-sentinel
+...

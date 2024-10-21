@@ -1,0 +1,6 @@
+[redis]
+master 192.168.1.101 redis_role=master
+slave1 192.168.1.102 redis_role=slave
+slave2 192.168.1.103 redis_role=slave
+[all:vars]
+redis_passwd=""

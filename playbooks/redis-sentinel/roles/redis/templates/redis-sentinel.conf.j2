@@ -1,0 +1,21 @@
+# 监听端口
+port 26379
+# 守护进程的形式运行
+daemonize yes
+# 进程PID
+pidfile /var/run/redis-sentinel.pid 
+# 日志文件
+logfile /var/log/sentinel.log
+# 工作目录
+dir /var/lib/redis-sentinel
+# 这里定义主库的IP和端口，还有最后的2表示要达到2台sentinel认同才认为主库已经挂掉
+sentinel monitor redismaster {{ hostvars['master']['ansible_host'] }} 6379 2
+# 主库在30000毫秒（即30秒）内没有反应就认为主库挂掉（即主观失效）
+sentinel down-after-milliseconds redismaster 30000
+# 若新主库当选后，允许最大可以同时从新主库同步数据的从库数
+sentinel parallel-syncs redismaster 1
+# 若在指定时间（即180000毫秒，即180秒）内没有实现故障转移，则会自动再发起一次
+sentinel failover-timeout redismaster 180000
+sentinel deny-scripts-reconfig yes
+# 如果设置了密码，这块是要写的
+sentinel auth-pass redismaster {{ redis_passwd }}

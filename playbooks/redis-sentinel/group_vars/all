@@ -1,0 +1,6 @@
+---
+build_dir: /tmp
+package_url_prefix: "http://download.redis.io/releases"
+redis_package: redis-7.4.1
+redis_port: 6379
+redis_package_url: "{{ package_url_prefix }}/{{ redis_package }}.tar.gz"
